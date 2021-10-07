@@ -14,6 +14,11 @@ public class NullGameMode : AbstractGameMode
 		
 	}
 
+	public override string GetGameText()
+	{
+		return "";
+	}
+
 	public override void OnTick()
 	{
 		

@@ -16,8 +16,7 @@ public class GameStatePanel : Panel
 	{
 		if (Local.Pawn is MinimalPlayer player)
 		{
-			Label.Text = "_________" + $"{player.currentGameMode.gameState}";
-
+				Label.Text = "_________" + $"{player.currentGameMode.GetGameText()}";
 		}
 	}
 }
