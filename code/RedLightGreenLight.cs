@@ -3,6 +3,7 @@ using MinimalExample;
 public class RedLightGreenLight : AbstractGameMode
 {
 	private bool movementAllowed = false;
+	private TimeSince gameStarted;
 
 	public RedLightGreenLight()
 	{
@@ -10,7 +11,7 @@ public class RedLightGreenLight : AbstractGameMode
 		Log.Info( "Fuck me im the green GameMode" );
 	}
 
-	public override void AddPlayer(MinimalPlayer player)
+	public override void AddPlayer( MinimalPlayer player )
 	{
 		player.currentGameModeClient = new RedLightGreenLightClient();
 		player.currentGameModeClient.minimalPlayer = player;
@@ -19,20 +20,23 @@ public class RedLightGreenLight : AbstractGameMode
 
 	public override void OnTick()
 	{
-		if(gameState.Equals(GAME_STATE.NOT_STARTED))
+		if ( gameState.Equals( GAME_STATE.NOT_STARTED ) )
 		{
 			Log.Info( "Let the Games begin!" );
 			gameState = GAME_STATE.RUNNING;
+			gameStarted = 0;
 		}
 
 		if ( !gameState.Equals( GAME_STATE.RUNNING ) ) return;
 		if ( movementAllowed ) return;
 
-		foreach(Client client in Client.All)
+		foreach ( Client client in Client.All )
 		{
-			if(client.Pawn is MinimalPlayer player)
+			if ( client.Pawn is MinimalPlayer player )
 			{
-				if(!player.currentGameModeClient.isMoving) return;
+				if ( !player.currentGameModeClient.isMoving ) return;
+
+				if ( gameStarted % 10 > 1 ) return;
 
 				player.TakeDamage( DamageInfo.Generic( player.Health + 1 ) );
 			}
