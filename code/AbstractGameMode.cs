@@ -21,4 +21,5 @@ public abstract partial class AbstractGameMode : Networked
 	public abstract void OnTick();
 
 	public abstract void AddPlayer( MinimalPlayer player );
+	public abstract string GetGameText();
 }
