@@ -15,6 +15,7 @@ public partial class RedLightGreenLight : AbstractGameMode
 	{
 		player.currentGameModeClient = new RedLightGreenLightClient();
 		player.currentGameModeClient.minimalPlayer = player;
+		player.currentGameModeClient.Init();
 	}
 
 

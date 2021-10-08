@@ -84,5 +84,12 @@ namespace MinimalExample
 
 			EnableDrawing = false;
 		}
+
+		public override void ClientSpawn()
+		{
+			base.ClientSpawn();
+			TimerUI timerPanel = new TimerUI(this);
+			timerPanel.Transform = Transform;
+		}
 	}
 }
