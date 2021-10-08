@@ -88,8 +88,12 @@ namespace MinimalExample
 		public override void ClientSpawn()
 		{
 			base.ClientSpawn();
-			TimerUI timerPanel = new TimerUI(this);
-			timerPanel.Transform = Transform;
+			//Log.Info( All.OfType<GameTimer>().ToList().Count );
+			foreach ( GameTimer timer in All.OfType<GameTimer>())
+			{
+				TimerUI timerPanel = new TimerUI(this);
+				timerPanel.Transform = timer.Transform;
+			}
 		}
 	}
 }

@@ -19,6 +19,11 @@ public class NullGameMode : AbstractGameMode
 		return "";
 	}
 
+	public override void Init()
+	{
+		base.Init();
+	}
+
 	public override void OnTick()
 	{
 		

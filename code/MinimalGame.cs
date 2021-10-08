@@ -1,6 +1,8 @@
 ﻿
 using Sandbox;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 //
 // You don't need to put things in a namespace, but it doesn't hurt.
@@ -20,6 +22,8 @@ namespace MinimalExample
 		[Net] public AbstractGameMode currentGameMode { get; set; } = new NullGameMode();
 		private Type currentGameModeClient { get; set; }
 
+		private TimeSince timeToStart = 0;
+
 		public MinimalGame()
 		{
 			if ( IsServer )
@@ -33,6 +37,7 @@ namespace MinimalExample
 				new MinimalHudEntity();
 				currentGameMode = new RedLightGreenLight();
 				currentGameModeClient = typeof( RedLightGreenLightClient );
+
 			}
 
 			if ( IsClient )
@@ -50,9 +55,6 @@ namespace MinimalExample
 
 			MinimalPlayer player = new MinimalPlayer();
 			player.currentGameMode = currentGameMode;
-
-			currentGameMode.AddPlayer( player );
-
 			client.Pawn = player;
 			player.Respawn();
 		}
@@ -62,8 +64,28 @@ namespace MinimalExample
 			if ( IsServer )
 			{
 				currentGameMode.OnTick();
+				if (timeToStart >= 10 && currentGameMode.gameState == AbstractGameMode.GAME_STATE.READY)
+				{
+					currentGameMode.Init();
+				}
 			}
 			base.Simulate( cl );
+		}
+
+		public override void PostLevelLoaded()
+		{
+			base.PostLevelLoaded();
+			currentGameMode.gameState = AbstractGameMode.GAME_STATE.READY;
+			if ( IsServer )
+			{
+				foreach ( Rlgls entity in All.OfType<Rlgls>() )
+				{
+					if (entity.Type.Equals(RlGlsEnum.PLAYER))
+					{
+						currentGameMode.playerSpawnPointList.Add( entity.Transform );
+					}
+				}
+			}
 		}
 	}
 
