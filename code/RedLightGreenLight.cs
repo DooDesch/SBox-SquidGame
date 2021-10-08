@@ -15,14 +15,18 @@ public partial class RedLightGreenLight : AbstractGameMode
 	{
 		player.currentGameModeClient = new RedLightGreenLightClient();
 		player.currentGameModeClient.minimalPlayer = player;
+		player.currentGameModeClient.Init();
 	}
 
 
 	public override void OnTick()
 	{
+		base.OnTick();
+
 		if ( gameState.Equals( GAME_STATE.NOT_STARTED ) )
 		{
 			Log.Info( "Let the Games begin!" );
+
 			gameState = GAME_STATE.RUNNING;
 			gameStarted = 0;
 		}
@@ -36,8 +40,6 @@ public partial class RedLightGreenLight : AbstractGameMode
 			if ( client.Pawn is MinimalPlayer player )
 			{
 				if ( !player.currentGameModeClient.isMoving ) return;
-
-				if ( movementAllowed ) return;
 
 				player.TakeDamage( DamageInfo.Generic( player.Health + 1 ) );
 			}
