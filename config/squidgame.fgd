@@ -14,6 +14,28 @@
 ]
 
 //
+// RlGlMapController
+//
+@PointClass base(BaseProperties_squidgame) 
+metadata
+{
+	entity_tool_name = "Logic RlGl"
+	entity_tool_group = "Logic"
+	entity_tool_tip = "Get event calls to change states on the map"
+	auto_apply_material = "materials/tools/toolstrigger.vmat"
+}
+= logic_rlgl : "Logic entity for the RlGl Gamemode"
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input OpenTheRoof(void) : "This will open the roof on the RlGl Map, usually before the beginning of the Game"
+	input CloseTheRoof(void) : "This will close the roof on the RlGl Map, usually at the end of the Game"
+
+	output OpenRoof(void) : ""
+	output CloseRoof(void) : ""
+]
+
+//
 // Rlgls
 //
 @PointClass base(BaseProperties_squidgame) 
