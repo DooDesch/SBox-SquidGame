@@ -20,6 +20,8 @@ public partial class RedLightGreenLight : AbstractGameMode
 
 	public override void OnTick()
 	{
+		base.OnTick();
+
 		if ( gameState.Equals( GAME_STATE.NOT_STARTED ) )
 		{
 			Log.Info( "Let the Games begin!" );
