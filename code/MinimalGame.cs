@@ -1,9 +1,6 @@
 ﻿
 using Sandbox;
-using Sandbox.UI.Construct;
 using System;
-using System.IO;
-using System.Threading.Tasks;
 
 //
 // You don't need to put things in a namespace, but it doesn't hurt.
@@ -20,7 +17,7 @@ namespace MinimalExample
 	/// </summary>
 	public partial class MinimalGame : Sandbox.Game
 	{
-		[Net] public AbstractGameMode currentGameMode { get; set; }
+		[Net] public AbstractGameMode currentGameMode { get; set; } = new NullGameMode();
 		private Type currentGameModeClient { get; set; }
 
 		public MinimalGame()

@@ -1,8 +1,8 @@
 ﻿using Sandbox;
 using MinimalExample;
-public class RedLightGreenLight : AbstractGameMode
+public partial class RedLightGreenLight : AbstractGameMode
 {
-	private bool movementAllowed = false;
+	[Net] public bool movementAllowed { get; set; } = false;
 	private TimeSince gameStarted;
 
 	public RedLightGreenLight()
@@ -15,19 +15,24 @@ public class RedLightGreenLight : AbstractGameMode
 	{
 		player.currentGameModeClient = new RedLightGreenLightClient();
 		player.currentGameModeClient.minimalPlayer = player;
+		player.currentGameModeClient.Init();
 	}
 
 
 	public override void OnTick()
 	{
+		base.OnTick();
+
 		if ( gameState.Equals( GAME_STATE.NOT_STARTED ) )
 		{
 			Log.Info( "Let the Games begin!" );
+
 			gameState = GAME_STATE.RUNNING;
 			gameStarted = 0;
 		}
 
 		if ( !gameState.Equals( GAME_STATE.RUNNING ) ) return;
+		movementAllowed = gameStarted % 10 > 1;
 		if ( movementAllowed ) return;
 
 		foreach ( Client client in Client.All )
@@ -36,10 +41,13 @@ public class RedLightGreenLight : AbstractGameMode
 			{
 				if ( !player.currentGameModeClient.isMoving ) return;
 
-				if ( gameStarted % 10 > 1 ) return;
-
 				player.TakeDamage( DamageInfo.Generic( player.Health + 1 ) );
 			}
 		}
+	}
+
+	public override string GetGameText()
+	{
+		return "________________" + movementAllowed.ToString();
 	}
 }
