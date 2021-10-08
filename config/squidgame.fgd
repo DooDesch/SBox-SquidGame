@@ -1,0 +1,59 @@
+
+@BaseClass = BaseProperties_squidgame
+[
+	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
+	parentAttachmentName(parentAttachment) [ group="Hierarchy" ] : "Parent Model Bone/Attachment Name" : : "The name of the bone or attachment to attach to on the entity's parent in the movement hierarchy. Use !bonemerge to use bone-merge style attachment."
+
+	useLocalOffset(boolean) [ group="Hierarchy" ] : "Use Model Attachment offsets" : 0 : "Whether to respect the specified local offset when doing the initial hierarchical attachment to its parent."
+	local.origin(vector) [ group="Hierarchy" ] : "Model Attachment position offset" : : "Offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+	local.angles(angle) [ group="Hierarchy" ] : "Model Attachment angular offset" : : "Angular offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+	local.scales(vector) [ group="Hierarchy" ] : "Model Attachment scale" : : "Scale in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	tags(tags) : "Tags" : "" : "A list of general purpose tags for this entity, for interactions with other entities such as triggers."
+]
+
+//
+// RlGlMapController
+//
+@PointClass base(BaseProperties_squidgame) 
+metadata
+{
+	entity_tool_name = "Logic RlGl"
+	entity_tool_group = "Logic"
+	entity_tool_tip = "Get event calls to change states on the map"
+	auto_apply_material = "materials/tools/toolstrigger.vmat"
+}
+= logic_rlgl : "Logic entity for the RlGl Gamemode"
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input OpenTheRoof(void) : "This will open the roof on the RlGl Map, usually before the beginning of the Game"
+	input CloseTheRoof(void) : "This will close the roof on the RlGl Map, usually at the end of the Game"
+
+	output OpenRoof(void) : ""
+	output CloseRoof(void) : ""
+]
+
+//
+// Rlgls
+//
+@PointClass base(BaseProperties_squidgame) 
+metadata
+{
+	entity_tool_name = "RlGl Spawnpoint"
+	entity_tool_group = "Player"
+	entity_tool_tip = "Defines a point where a defined entity can (re)spawn"
+}
+= info_rlgl_spawn : "Spawnpoint for red light green light game"
+[
+	type(choices) : "SpawnPoint Type" : 1 : "" =
+	[
+		0 : "DOLL"
+		1 : "PLAYER"
+		2 : "SUPERVISOR"
+		3 : "GUNNER"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+]
+
