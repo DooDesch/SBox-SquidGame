@@ -9,6 +9,7 @@ class TimerUI : WorldPanel
 	public MinimalPlayer MinimalPlayer { get; }
 
 	private AbstractGameMode assignedGamemode;
+	private int maxTime = 300;
 
 	public TimerUI( MinimalPlayer minimalPlayer ) : base()
 	{
@@ -21,7 +22,7 @@ class TimerUI : WorldPanel
 	public override void Tick()
 	{
 		base.Tick();
-		int diff = assignedGamemode.maxTime - (int)assignedGamemode.timeSinceStarted;
+		int diff = maxTime - (int)assignedGamemode.timeSinceStarted;
 		if ( diff < 0 ) diff = 0;
 		Label.Text = $"{((int)diff/60).ToString().PadLeft(2, '0')}" + $":{((int)(diff%60)).ToString().PadLeft(2, '0')}";
 	}
