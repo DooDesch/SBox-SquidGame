@@ -19,8 +19,10 @@ public partial class RedLightGreenLight : AbstractGameMode
 	{
 		player.currentGameModeClient = new RedLightGreenLightClient();
 		player.currentGameModeClient.minimalPlayer = player;
-		player.currentGameModeClient.Init();
 		player.Transform = playerSpawnPointList[Rand.Next( 0, playerSpawnPointList.Count )];
+		Log.Info( "TEST" );
+		Log.Info( AbstractGameMode.timerList.Count );
+		player.currentGameModeClient.Init();
 	}
 
 

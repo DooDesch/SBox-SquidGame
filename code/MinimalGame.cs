@@ -57,6 +57,10 @@ namespace MinimalExample
 			player.currentGameMode = currentGameMode;
 			client.Pawn = player;
 			player.Respawn();
+			if(IsServer)
+			{
+				ClientSpawn();
+			}
 		}
 
 		public override void Simulate( Client cl )
@@ -74,6 +78,7 @@ namespace MinimalExample
 
 		public override void PostLevelLoaded()
 		{
+			Log.Info( "PostLevelLoaded" );
 			base.PostLevelLoaded();
 			currentGameMode.gameState = AbstractGameMode.GAME_STATE.READY;
 			if ( IsServer )
@@ -84,6 +89,11 @@ namespace MinimalExample
 					{
 						currentGameMode.playerSpawnPointList.Add( entity.Transform );
 					}
+				}
+
+				foreach ( GameTimer timer in All.OfType<GameTimer>() )
+				{
+					AbstractGameMode.timerList.Add( timer );
 				}
 			}
 		}

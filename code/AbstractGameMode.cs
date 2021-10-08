@@ -6,6 +6,8 @@ using Sandbox;
 
 public abstract partial class AbstractGameMode : Networked
 {
+	public static List<GameTimer> timerList { get; set; } = new List<GameTimer>();
+
 	public enum GAME_STATE
 	{
 		NOT_STARTED,

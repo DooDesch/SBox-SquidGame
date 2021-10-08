@@ -14,6 +14,8 @@ namespace MinimalExample
 		/// </summary>
 		public Clothing.Container Clothing = new();
 
+		private bool doneInit;
+
 		/// <summary>
 		/// Default init
 		/// </summary>
@@ -60,12 +62,38 @@ namespace MinimalExample
 			base.Respawn();
 		}
 
+		private void Init()
+		{
+
+			Log.Info( "INIT FOOR CLIENT" );
+			Log.Info( AbstractGameMode.timerList.Count );
+
+			if ( AbstractGameMode.timerList.Count == 0)
+			{
+				return;
+			}
+
+			Log.Info( "INIT FOOR CLIENT" );
+			Log.Info( AbstractGameMode.timerList.Count );
+			foreach(GameTimer timer in AbstractGameMode.timerList)
+			{
+
+			}
+			doneInit = true;
+		}
+
 		/// <summary>
 		/// Called every tick, clientside and serverside.
 		/// </summary>
 		public override void Simulate( Client cl )
 		{
 			base.Simulate( cl );
+
+			if (IsClient && !doneInit)
+			{
+				Init();
+			}
+
 			if (cl.Pawn is MinimalPlayer player)
 			{
 				player.currentGameModeClient.isMoving = player.Velocity.Length > 0;
@@ -83,17 +111,6 @@ namespace MinimalExample
 			base.OnKilled();
 
 			EnableDrawing = false;
-		}
-
-		public override void ClientSpawn()
-		{
-			base.ClientSpawn();
-			//Log.Info( All.OfType<GameTimer>().ToList().Count );
-			foreach ( GameTimer timer in All.OfType<GameTimer>())
-			{
-				TimerUI timerPanel = new TimerUI(this);
-				timerPanel.Transform = timer.Transform;
-			}
 		}
 	}
 }
