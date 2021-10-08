@@ -20,7 +20,7 @@ namespace MinimalExample
 	/// </summary>
 	public partial class MinimalGame : Sandbox.Game
 	{
-		[Net] public AbstractGameMode currentGameMode { get; set; }
+		[Net] public AbstractGameMode currentGameMode { get; set; } = new NullGameMode();
 		private Type currentGameModeClient { get; set; }
 
 		public MinimalGame()
