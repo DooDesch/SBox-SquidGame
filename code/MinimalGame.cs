@@ -3,6 +3,7 @@ using Sandbox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SquidGame.Entities;
 
 //
 // You don't need to put things in a namespace, but it doesn't hurt.
@@ -21,8 +22,6 @@ namespace MinimalExample
 	{
 		[Net] public AbstractGameMode CurrentGameMode { get; set; } = new NullGameMode();
 		private Type CurrentGameModeClient { get; set; }
-
-		private TimeSince timeToStart = 0;
 
 		public MinimalGame()
 		{
@@ -70,6 +69,44 @@ namespace MinimalExample
 			if ( IsServer )
 			{
 				CurrentGameMode.OnTick();
+			}
+		}
+
+		[Event.Hotload]
+		public void debugOutput()
+		{
+			// foreach ( var entity in BaseTrigger.All.OfType<Zone>() )
+			// {
+			// 	if ( entity.Tags.Has( "RedLightGreenLight" ) )
+			// 	{
+			// 		Log.Info( entity.Name );
+			// 	}
+			// }
+		}
+
+		[Event.Entity.PostSpawn]
+		public void Init()
+		{
+			Log.Info( "MinimalGame::Init" );
+
+			if ( IsServer )
+			{
+				Log.Info( "ServerSide Call.." );
+				return;
+			};
+
+			if ( AbstractGameMode.timerList.Count == 0 )
+			{
+				return;
+			}
+
+			Log.Info( AbstractGameMode.timerList.Count );
+
+			foreach ( GameTimer timer in AbstractGameMode.timerList )
+			{
+				Log.Info( "Creating new Timer" );
+				TimerUI timerUI = new TimerUI();
+				timerUI.Transform = timer.Transform;
 			}
 		}
 
