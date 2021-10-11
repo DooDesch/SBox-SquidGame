@@ -16,13 +16,12 @@ namespace MinimalExample
 
 		private bool doneInit;
 
+		public bool CanMove { get; set; } = true;
+
 		/// <summary>
 		/// Default init
 		/// </summary>
-		public MinimalPlayer()
-		{
-
-		}
+		public MinimalPlayer() { }
 
 		/// <summary>
 		/// Initialize using this client
@@ -40,7 +39,7 @@ namespace MinimalExample
 			//
 			// Use WalkController for movement (you can make your own PlayerController for 100% control)
 			//
-			Controller = new WalkController();
+			Controller = new MinimalWalkController( this );
 
 			//
 			// Use StandardPlayerAnimator  (you can make your own PlayerAnimator for 100% control)

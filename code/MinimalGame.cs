@@ -65,23 +65,28 @@ namespace MinimalExample
 
 		public override void Simulate( Client cl )
 		{
+			base.Simulate( cl );
+
 			if ( IsServer )
 			{
 				CurrentGameMode.OnTick();
-				if ( timeToStart >= 10 && CurrentGameMode.gameState == AbstractGameMode.GAME_STATE.READY )
-				{
-					CurrentGameMode.Init();
-				}
 			}
-			base.Simulate( cl );
 		}
 
 		public override void PostLevelLoaded()
 		{
 			Log.Info( "MinimalGame::PostLevelLoaded" );
+
 			base.PostLevelLoaded();
 
-			CurrentGameMode.Init();
+			if ( IsServer )
+			{
+				// if ( timeToStart >= 10 && CurrentGameMode.gameState == AbstractGameMode.GAME_STATE.READY )
+				// {
+				// 	CurrentGameMode.Init();
+				// }
+				CurrentGameMode.Init();
+			}
 		}
 	}
 
