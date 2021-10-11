@@ -10,6 +10,8 @@ public partial class RedLightGreenLight : AbstractGameMode
 
 	public RedLightGreenLight()
 	{
+		Tag = "RedLightGreenLight";
+
 		gameStarted = 0;
 		maxTime = 300;
 		gameState = GAME_STATE.NOT_STARTED;
@@ -18,23 +20,7 @@ public partial class RedLightGreenLight : AbstractGameMode
 
 	public override void Init()
 	{
-		if ( IsServer )
-		{
-			foreach ( Rlgls entity in All.OfType<Rlgls>() )
-			{
-				if ( entity.Type.Equals( RlGlsEnum.PLAYER ) )
-				{
-					playerSpawnPointList.Add( entity.Transform );
-				}
-			}
-
-			foreach ( GameTimer timer in All.OfType<GameTimer>() )
-			{
-				timerList.Add( timer );
-			}
-		}
-
-		gameState = GAME_STATE.READY;
+		base.Init();
 
 		foreach ( Client client in Client.All )
 		{
@@ -43,7 +29,6 @@ public partial class RedLightGreenLight : AbstractGameMode
 				AddPlayer( player );
 			}
 		}
-		base.Init();
 	}
 
 	public override void OnTick()
@@ -60,7 +45,7 @@ public partial class RedLightGreenLight : AbstractGameMode
 			if ( client.Pawn is MinimalPlayer player )
 			{
 				if ( !player.currentGameModeClient.isMoving ) return;
-				//player.TakeDamage( DamageInfo.Generic( player.Health + 1 ) );
+				//player.TakeDamage( DamageInfo.Generic( player.Health + 1 ) ); // TODO : Uncomment, so the player gets damaged again
 			}
 		}
 	}
@@ -76,7 +61,7 @@ public partial class RedLightGreenLight : AbstractGameMode
 		player.currentGameModeClient.minimalPlayer = player;
 		player.Transform = playerSpawnPointList[Rand.Next( 0, playerSpawnPointList.Count )];
 		Log.Info( "RedLightGreenLight::AddPlayer" );
-		Log.Info( AbstractGameMode.timerList.Count );
+		Log.Info( timerList.Count );
 		player.currentGameModeClient.Init();
 	}
 }
