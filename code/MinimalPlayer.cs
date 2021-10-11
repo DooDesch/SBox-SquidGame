@@ -16,13 +16,14 @@ namespace MinimalExample
 
 		private bool doneInit;
 
+		public bool CanMove { get; set; } = true;
+
+		public bool CanRespawn { get; set; } = true;
+
 		/// <summary>
 		/// Default init
 		/// </summary>
-		public MinimalPlayer()
-		{
-			
-		}
+		public MinimalPlayer() { }
 
 		/// <summary>
 		/// Initialize using this client
@@ -35,12 +36,14 @@ namespace MinimalExample
 
 		public override void Respawn()
 		{
+			if ( !CanRespawn ) return;
+
 			SetModel( "models/citizen/citizen.vmdl" );
 
 			//
 			// Use WalkController for movement (you can make your own PlayerController for 100% control)
 			//
-			Controller = new WalkController();
+			Controller = new MinimalWalkController( this );
 
 			//
 			// Use StandardPlayerAnimator  (you can make your own PlayerAnimator for 100% control)
@@ -64,22 +67,18 @@ namespace MinimalExample
 
 		private void Init()
 		{
+			Log.Info( "MinimalPlayer::Init" );
+			doneInit = true;
 
-			Log.Info( "INIT FOOR CLIENT" );
-			Log.Info( AbstractGameMode.timerList.Count );
-
-			if ( AbstractGameMode.timerList.Count == 0)
+			if ( AbstractGameMode.timerList.Count == 0 )
 			{
 				return;
 			}
 
-			Log.Info( "INIT FOOR CLIENT" );
-			Log.Info( AbstractGameMode.timerList.Count );
-			foreach(GameTimer timer in AbstractGameMode.timerList)
+			foreach ( GameTimer timer in AbstractGameMode.timerList )
 			{
 
 			}
-			doneInit = true;
 		}
 
 		/// <summary>
@@ -89,12 +88,12 @@ namespace MinimalExample
 		{
 			base.Simulate( cl );
 
-			if (IsClient && !doneInit)
+			if ( IsClient && !doneInit )
 			{
 				Init();
 			}
 
-			if (cl.Pawn is MinimalPlayer player)
+			if ( cl.Pawn is MinimalPlayer player )
 			{
 				player.currentGameModeClient.isMoving = player.Velocity.Length > 0;
 			}

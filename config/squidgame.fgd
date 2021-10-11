@@ -72,3 +72,25 @@ metadata
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 
+//
+// SgSp
+//
+@PointClass base(BaseProperties_squidgame) 
+metadata
+{
+	entity_tool_name = "Squid Game Spawnpoint"
+	entity_tool_group = "Player"
+	entity_tool_tip = "Defines a point where a defined entity can (re)spawn"
+}
+= info_sg_spawn : "Spawnpoint for squid game games"
+[
+	type(choices) : "SpawnPoint Type" : 1 : "" =
+	[
+		0 : "DOLL"
+		1 : "PLAYER"
+		2 : "SUPERVISOR"
+		3 : "GUNNER"
+	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+]
+
