@@ -21,7 +21,7 @@ namespace MinimalExample
 		/// </summary>
 		public MinimalPlayer()
 		{
-			
+
 		}
 
 		/// <summary>
@@ -64,22 +64,18 @@ namespace MinimalExample
 
 		private void Init()
 		{
+			Log.Info( "MinimalPlayer::Init" );
+			doneInit = true;
 
-			Log.Info( "INIT FOOR CLIENT" );
-			Log.Info( AbstractGameMode.timerList.Count );
-
-			if ( AbstractGameMode.timerList.Count == 0)
+			if ( AbstractGameMode.timerList.Count == 0 )
 			{
 				return;
 			}
 
-			Log.Info( "INIT FOOR CLIENT" );
-			Log.Info( AbstractGameMode.timerList.Count );
-			foreach(GameTimer timer in AbstractGameMode.timerList)
+			foreach ( GameTimer timer in AbstractGameMode.timerList )
 			{
 
 			}
-			doneInit = true;
 		}
 
 		/// <summary>
@@ -89,12 +85,12 @@ namespace MinimalExample
 		{
 			base.Simulate( cl );
 
-			if (IsClient && !doneInit)
+			if ( IsClient && !doneInit )
 			{
 				Init();
 			}
 
-			if (cl.Pawn is MinimalPlayer player)
+			if ( cl.Pawn is MinimalPlayer player )
 			{
 				player.currentGameModeClient.isMoving = player.Velocity.Length > 0;
 			}

@@ -4,7 +4,7 @@ using MinimalExample;
 using Sandbox;
 
 
-public abstract partial class AbstractGameMode : Networked
+public abstract partial class AbstractGameMode : Entity
 {
 	public static List<GameTimer> timerList { get; set; } = new List<GameTimer>();
 
@@ -33,7 +33,7 @@ public abstract partial class AbstractGameMode : Networked
 
 	public virtual void OnTick()
 	{
-		if (!gameState.Equals(GAME_STATE.RUNNING))
+		if ( !gameState.Equals( GAME_STATE.RUNNING ) )
 		{
 			timeSinceStarted = 0;
 		}
