@@ -14,8 +14,6 @@ namespace MinimalExample
 		/// </summary>
 		public Clothing.Container Clothing = new();
 
-		private bool doneInit;
-
 		public bool CanMove { get; set; } = true;
 
 		public bool CanRespawn { get; set; } = true;
@@ -65,33 +63,12 @@ namespace MinimalExample
 			base.Respawn();
 		}
 
-		private void Init()
-		{
-			Log.Info( "MinimalPlayer::Init" );
-			doneInit = true;
-
-			if ( AbstractGameMode.timerList.Count == 0 )
-			{
-				return;
-			}
-
-			foreach ( GameTimer timer in AbstractGameMode.timerList )
-			{
-
-			}
-		}
-
 		/// <summary>
 		/// Called every tick, clientside and serverside.
 		/// </summary>
 		public override void Simulate( Client cl )
 		{
 			base.Simulate( cl );
-
-			if ( IsClient && !doneInit )
-			{
-				Init();
-			}
 
 			if ( cl.Pawn is MinimalPlayer player )
 			{
