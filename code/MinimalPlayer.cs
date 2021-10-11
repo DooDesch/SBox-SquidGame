@@ -18,6 +18,8 @@ namespace MinimalExample
 
 		public bool CanMove { get; set; } = true;
 
+		public bool CanRespawn { get; set; } = true;
+
 		/// <summary>
 		/// Default init
 		/// </summary>
@@ -34,6 +36,8 @@ namespace MinimalExample
 
 		public override void Respawn()
 		{
+			if ( !CanRespawn ) return;
+
 			SetModel( "models/citizen/citizen.vmdl" );
 
 			//

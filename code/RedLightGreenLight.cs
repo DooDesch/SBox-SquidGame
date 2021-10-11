@@ -17,6 +17,7 @@ public partial class RedLightGreenLight : AbstractGameMode
 		{
 			GameSetup = 10,
 			GameStarts = 10,
+			GameEnds = 10,
 		};
 	}
 

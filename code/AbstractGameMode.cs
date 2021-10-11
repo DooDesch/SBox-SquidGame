@@ -8,7 +8,6 @@ public class TimeUntil
 {
 	public int GameSetup = 120;
 	public int GameStarts = 120;
-	public int GameRuns = 120;
 	public int GameEnds = 300;
 }
 
@@ -17,7 +16,6 @@ public class GameStateTimer
 	public TimeSince Ready;
 	public TimeSince Setup;
 	public TimeSince Started;
-	public TimeSince Running;
 	public TimeSince Ended;
 }
 
@@ -84,6 +82,8 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 
 	public virtual void Ready()
 	{
+		Log.Info( "AbstractGameMode::Ready" );
+
 		foreach ( SgSp entity in Entity.All.OfType<SgSp>() )
 		{
 
@@ -105,18 +105,24 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 
 	public virtual void Setup()
 	{
+		Log.Info( "AbstractGameMode::Setup" );
+
 		gameState = GAME_STATE.SETUP;
 		GameStateTimer.Setup = 0;
 	}
 
 	public virtual void Start()
 	{
+		Log.Info( "AbstractGameMode::Start" );
+
 		gameState = GAME_STATE.STARTING;
 		GameStateTimer.Started = 0;
 	}
 
 	public virtual void End()
 	{
+		Log.Info( "AbstractGameMode::End" );
+
 		gameState = GAME_STATE.ENDING;
 		GameStateTimer.Ended = 0;
 
