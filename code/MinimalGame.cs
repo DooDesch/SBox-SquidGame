@@ -52,10 +52,14 @@ namespace MinimalExample
 		{
 			base.ClientJoined( client );
 
-			MinimalPlayer player = new MinimalPlayer();
-			player.currentGameMode = CurrentGameMode;
+			MinimalPlayer player = new()
+			{
+				CurrentGameMode = CurrentGameMode
+			};
+
 			client.Pawn = player;
 			player.Respawn();
+
 			if ( IsServer )
 			{
 				ClientSpawn();
@@ -73,7 +77,7 @@ namespace MinimalExample
 		}
 
 		[Event.Hotload]
-		public void debugOutput()
+		public void DebugOutput()
 		{
 			// foreach ( var entity in BaseTrigger.All.OfType<Zone>() )
 			// {
@@ -94,20 +98,6 @@ namespace MinimalExample
 				Log.Info( "ServerSide Call.." );
 				return;
 			};
-
-			if ( AbstractGameMode.timerList.Count == 0 )
-			{
-				return;
-			}
-
-			Log.Info( AbstractGameMode.timerList.Count );
-
-			foreach ( GameTimer timer in AbstractGameMode.timerList )
-			{
-				Log.Info( "Creating new Timer" );
-				TimerUI timerUI = new TimerUI();
-				timerUI.Transform = timer.Transform;
-			}
 		}
 
 		public override void PostLevelLoaded()

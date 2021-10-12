@@ -11,8 +11,7 @@ public partial class RedLightGreenLight : AbstractGameMode
 	{
 		Log.Info( "RedLightGreenLight::Constructor" );
 		Tag = "RedLightGreenLight";
-		maxTime = 300;
-		gameState = GAME_STATE.NOT_STARTED;
+		GameState = GAME_STATE.NOT_STARTED;
 		TimeUntil = new TimeUntil
 		{
 			GameSetup = 10,
@@ -26,14 +25,14 @@ public partial class RedLightGreenLight : AbstractGameMode
 		base.Init();
 
 		Log.Info( "RedLightGreenLight::Init" );
-		Log.Info( "GameState : " + gameState.ToString() );
+		Log.Info( "GameState : " + GameState.ToString() );
 	}
 
 	public override void OnTick()
 	{
 		base.OnTick();
 
-		if ( !gameState.Equals( GAME_STATE.STARTING ) ) return;
+		if ( !GameState.Equals( GAME_STATE.STARTING ) ) return;
 
 		MovementAllowed = GameStateTimer.Started % 10 > 1;
 		if ( MovementAllowed ) return;
@@ -42,7 +41,7 @@ public partial class RedLightGreenLight : AbstractGameMode
 		{
 			if ( client.Pawn is MinimalPlayer player )
 			{
-				if ( !player.currentGameModeClient.isMoving ) return;
+				if ( !player.CurrentGameModeClient.IsMoving ) return;
 
 				Log.Warning( "You dead Jimbo" ); // TODO : Remove
 
@@ -81,18 +80,17 @@ public partial class RedLightGreenLight : AbstractGameMode
 
 	public override void AddPlayer( MinimalPlayer player )
 	{
-		Log.Info( "RedLightGreenLight::AddPlayer" );
-		Log.Info( "TimerList : " + timerList.Count );
-
-		player.currentGameModeClient = new RedLightGreenLightClient();
-		player.currentGameModeClient.minimalPlayer = player;
-
-		if ( playerSpawnPointList.Count > 0 )
+		player.CurrentGameModeClient = new RedLightGreenLightClient
 		{
-			player.Transform = playerSpawnPointList[Rand.Next( 0, playerSpawnPointList.Count )];
+			MinimalPlayer = player
+		};
+
+		if ( PlayerSpawnPointList.Count > 0 )
+		{
+			player.Transform = PlayerSpawnPointList[Rand.Next( 0, PlayerSpawnPointList.Count )];
 		}
 
-		player.currentGameModeClient.Init();
+		player.CurrentGameModeClient.Init();
 	}
 
 	public override string GetGameText()

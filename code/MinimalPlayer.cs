@@ -7,8 +7,8 @@ namespace MinimalExample
 	public partial class MinimalPlayer : Player
 	{
 
-		[Net] public AbstractGameMode currentGameMode { get; set; } = new NullGameMode();
-		[Net] public AbstractGameModeClient currentGameModeClient { get; set; } = new NullGameModeClient();
+		[Net] public AbstractGameMode CurrentGameMode { get; set; } = new NullGameMode();
+		[Net] public AbstractGameModeClient CurrentGameModeClient { get; set; } = new NullGameModeClient();
 		/// <summary>
 		/// The clothing container is what dresses the citizen
 		/// </summary>
@@ -72,7 +72,7 @@ namespace MinimalExample
 
 			if ( cl.Pawn is MinimalPlayer player )
 			{
-				player.currentGameModeClient.isMoving = player.Velocity.Length > 0;
+				player.CurrentGameModeClient.IsMoving = player.Velocity.Length > 0;
 			}
 
 			//

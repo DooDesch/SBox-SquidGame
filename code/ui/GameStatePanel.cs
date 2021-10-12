@@ -14,9 +14,9 @@ public class GameStatePanel : Panel
 
 	public override void Tick()
 	{
-		if (Local.Pawn is MinimalPlayer player)
+		if ( Local.Pawn is MinimalPlayer player )
 		{
-				Label.Text = "_________" + $"{player.currentGameMode.GetGameText()}";
+			Label.Text = "_________" + $"{player.CurrentGameMode.GetGameText()}";
 		}
 	}
 }

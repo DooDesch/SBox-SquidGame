@@ -27,7 +27,7 @@ namespace SquidGame.Entities
 		{
 			if ( activator is MinimalPlayer player )
 			{
-				player.currentGameModeClient.HasWon = true;
+				player.CurrentGameModeClient.HasWon = true;
 			}
 
 			return new ValueTask();
@@ -37,7 +37,7 @@ namespace SquidGame.Entities
 		{
 			if ( activator is MinimalPlayer player )
 			{
-				player.currentGameModeClient.HasWon = false;
+				player.CurrentGameModeClient.HasWon = false;
 			}
 
 			return new ValueTask();

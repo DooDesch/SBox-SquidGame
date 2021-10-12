@@ -14,21 +14,6 @@
 ]
 
 //
-// GameTimer
-//
-@PointClass base(BaseProperties_squidgame) 
-metadata
-{
-	entity_tool_name = "Game Timer"
-	entity_tool_group = "Effects"
-	entity_tool_tip = "Spawns a Panel with a Timer/Countdown"
-}
-= info_gametimer : "Spawnpoint for Timer"
-[
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
-]
-
-//
 // RlGlMapController
 //
 @PointClass base(BaseProperties_squidgame) 
@@ -69,6 +54,21 @@ metadata
 		2 : "SUPERVISOR"
 		3 : "GUNNER"
 	]
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+]
+
+//
+// GameTimer
+//
+@PointClass base(BaseProperties_squidgame) drawangles() iconsprite( "editor/snd_event.vmat" ) 
+metadata
+{
+	entity_tool_name = "Game Timer"
+	entity_tool_group = "Effects"
+	entity_tool_tip = "Spawns a Panel with a Timer/Countdown"
+}
+= info_gametimer : "Spawnpoint for Timer"
+[
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 ]
 

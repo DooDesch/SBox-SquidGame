@@ -5,13 +5,13 @@ public class NullGameMode : AbstractGameMode
 {
 	public NullGameMode()
 	{
-		gameState = GAME_STATE.NULL;
+		GameState = GAME_STATE.NULL;
 		Log.Info( "Fuck me im the null GameMode" );
 	}
 
-	public override void AddPlayer( MinimalPlayer player)
+	public override void AddPlayer( MinimalPlayer player )
 	{
-		
+
 	}
 
 	public override string GetGameText()
@@ -26,6 +26,6 @@ public class NullGameMode : AbstractGameMode
 
 	public override void OnTick()
 	{
-		
+
 	}
 }
