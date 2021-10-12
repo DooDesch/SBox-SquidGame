@@ -13,6 +13,8 @@ class TimerUI : WorldPanel
 
 	public TimerUI() : base()
 	{
+		SetPanelBounds();
+
 		StyleSheet.Load( "/world-ui/World-UI.scss" );
 		Label = Add.Label( "100" );
 	}
@@ -25,6 +27,17 @@ class TimerUI : WorldPanel
 		string minutes = ((int)diff / 60).ToString().PadLeft( 2, '0' );
 		string seconds = ((int)(diff % 60)).ToString().PadLeft( 2, '0' );
 		Label.Text = $"{minutes}:{seconds}";
+
+		SetPanelBounds();
+
+		Style.Dirty();
+	}
+
+	private void SetPanelBounds()
+	{
+		var w = 2300;
+		var h = 1160;
+		PanelBounds = new Rect( -(w / 2), -110 - (h / 2), w, h );
 	}
 
 	public void UpdateTimer( int time )
