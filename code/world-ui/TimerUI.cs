@@ -14,7 +14,7 @@ class TimerUI : WorldPanel
 	public TimerUI() : base()
 	{
 		StyleSheet.Load( "/world-ui/World-UI.scss" );
-		Label = Add.Label( "100", "value" );
+		Label = Add.Label( "100" );
 	}
 
 	public override void Tick()
@@ -22,6 +22,14 @@ class TimerUI : WorldPanel
 		base.Tick();
 		int diff = maxTime - (int)timeSinceStarted;
 		if ( diff < 0 ) diff = 0;
-		Label.Text = $"{((int)diff/60).ToString().PadLeft(2, '0')}" + $":{((int)(diff%60)).ToString().PadLeft(2, '0')}";
+		string minutes = ((int)diff / 60).ToString().PadLeft( 2, '0' );
+		string seconds = ((int)(diff % 60)).ToString().PadLeft( 2, '0' );
+		Label.Text = $"{minutes}:{seconds}";
+	}
+
+	public void UpdateTimer( int time )
+	{
+		maxTime = time;
+		timeSinceStarted = 0;
 	}
 }
