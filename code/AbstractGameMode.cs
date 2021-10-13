@@ -78,7 +78,6 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 
 		foreach ( SgSp entity in Entity.All.OfType<SgSp>() )
 		{
-
 			if ( !entity.Tags.Has( Tag ) ) return;
 
 			if ( entity.Type.Equals( SgSpEnum.PLAYER ) )

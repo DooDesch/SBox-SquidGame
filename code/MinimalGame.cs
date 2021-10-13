@@ -21,7 +21,7 @@ namespace MinimalExample
 	public partial class MinimalGame : Sandbox.Game
 	{
 		[Net] public AbstractGameMode CurrentGameMode { get; set; } = new NullGameMode();
-		private Type CurrentGameModeClient { get; set; }
+		private Type CurrentGameModeClient { get; set; } = typeof( NullGameModeClient );
 
 		public MinimalGame()
 		{
@@ -33,7 +33,8 @@ namespace MinimalExample
 				// and when it is created clientside it creates the actual
 				// UI panels. You don't have to create your HUD via an entity,
 				// this just feels like a nice neat way to do it.
-				new MinimalHudEntity();
+				_ = new MinimalHudEntity();
+
 				CurrentGameMode = new RedLightGreenLight();
 				CurrentGameModeClient = typeof( RedLightGreenLightClient );
 

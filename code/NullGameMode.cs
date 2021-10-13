@@ -5,8 +5,8 @@ public class NullGameMode : AbstractGameMode
 {
 	public NullGameMode()
 	{
+		Log.Info( "NullGameMode::Constructor" );
 		GameState = GAME_STATE.NULL;
-		Log.Info( "Fuck me im the null GameMode" );
 	}
 
 	public override void AddPlayer( MinimalPlayer player )
@@ -21,7 +21,7 @@ public class NullGameMode : AbstractGameMode
 
 	public override void Init()
 	{
-		base.Init();
+		// base.Init();
 	}
 
 	public override void OnTick()
