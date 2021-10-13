@@ -1,12 +1,12 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
-using MinimalExample;
+using SquidGame;
 
 class TimerUI : WorldPanel
 {
 	public Label Label;
-	public MinimalPlayer MinimalPlayer { get; }
+	public SquidGamePlayer Player { get; }
 
 	private int maxTime = 300;
 	private TimeSince timeSinceStarted = 0;

@@ -3,6 +3,6 @@ class RedLightGreenLightClient : AbstractGameModeClient
 {
 	public override void Init()
 	{
-		//minimalPlayer.ClientSpawn();
+		//Player.ClientSpawn();
 	}
 }

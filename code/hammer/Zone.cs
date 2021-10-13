@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MinimalExample;
+using SquidGame;
 
 namespace SquidGame.Entities
 {
@@ -25,7 +25,7 @@ namespace SquidGame.Entities
 
 		private ValueTask HandleOnStartTouch( Entity activator, float delay )
 		{
-			if ( activator is MinimalPlayer player )
+			if ( activator is SquidGamePlayer player )
 			{
 				player.CurrentGameModeClient.HasWon = true;
 			}
@@ -35,7 +35,7 @@ namespace SquidGame.Entities
 
 		private ValueTask HandleOnEndTouch( Entity activator, float delay )
 		{
-			if ( activator is MinimalPlayer player )
+			if ( activator is SquidGamePlayer player )
 			{
 				player.CurrentGameModeClient.HasWon = false;
 			}

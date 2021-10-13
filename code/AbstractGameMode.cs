@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using MinimalExample;
+using SquidGame;
 using Sandbox;
 
 public class TimeUntil
@@ -119,7 +119,7 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 
 		foreach ( Client client in Client.All )
 		{
-			if ( client.Pawn is MinimalPlayer player )
+			if ( client.Pawn is SquidGamePlayer player )
 			{
 				if ( player.CurrentGameModeClient.HasWon ) continue;
 
@@ -131,6 +131,6 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 		}
 	}
 
-	public abstract void AddPlayer( MinimalPlayer player );
+	public abstract void AddPlayer( SquidGamePlayer player );
 	public abstract string GetGameText();
 }

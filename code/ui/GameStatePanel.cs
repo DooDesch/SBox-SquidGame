@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
-using MinimalExample;
+using SquidGame;
 
 public class GameStatePanel : Panel
 {
@@ -14,7 +14,7 @@ public class GameStatePanel : Panel
 
 	public override void Tick()
 	{
-		if ( Local.Pawn is MinimalPlayer player )
+		if ( Local.Pawn is SquidGamePlayer player )
 		{
 			Label.Text = "_________" + $"{player.CurrentGameMode.GetGameText()}";
 		}

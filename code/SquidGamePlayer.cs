@@ -2,9 +2,9 @@
 using System;
 using System.Linq;
 
-namespace MinimalExample
+namespace SquidGame
 {
-	public partial class MinimalPlayer : Player
+	public partial class SquidGamePlayer : Player
 	{
 
 		[Net] public AbstractGameMode CurrentGameMode { get; set; } = new NullGameMode();
@@ -21,12 +21,12 @@ namespace MinimalExample
 		/// <summary>
 		/// Default init
 		/// </summary>
-		public MinimalPlayer() { }
+		public SquidGamePlayer() { }
 
 		/// <summary>
 		/// Initialize using this client
 		/// </summary>
-		public MinimalPlayer( Client cl )
+		public SquidGamePlayer( Client cl )
 		{
 			// Load clothing from client data
 			Clothing.LoadFromClient( cl );
@@ -41,7 +41,7 @@ namespace MinimalExample
 			//
 			// Use WalkController for movement (you can make your own PlayerController for 100% control)
 			//
-			Controller = new MinimalWalkController( this );
+			Controller = new SquidGameWalkController( this );
 
 			//
 			// Use StandardPlayerAnimator  (you can make your own PlayerAnimator for 100% control)
@@ -70,7 +70,7 @@ namespace MinimalExample
 		{
 			base.Simulate( cl );
 
-			if ( cl.Pawn is MinimalPlayer player )
+			if ( cl.Pawn is SquidGamePlayer player )
 			{
 				player.CurrentGameModeClient.IsMoving = player.Velocity.Length > 0;
 			}

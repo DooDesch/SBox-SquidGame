@@ -8,7 +8,7 @@ using SquidGame.Entities;
 //
 // You don't need to put things in a namespace, but it doesn't hurt.
 //
-namespace MinimalExample
+namespace SquidGame
 {
 
 	/// <summary>
@@ -18,12 +18,12 @@ namespace MinimalExample
 	/// You can use this to create things like HUDs and declare which player class
 	/// to use for spawned players.
 	/// </summary>
-	public partial class MinimalGame : Sandbox.Game
+	public partial class SquidGame : Sandbox.Game
 	{
 		[Net] public AbstractGameMode CurrentGameMode { get; set; } = new NullGameMode();
 		private Type CurrentGameModeClient { get; set; } = typeof( NullGameModeClient );
 
-		public MinimalGame()
+		public SquidGame()
 		{
 			if ( IsServer )
 			{
@@ -33,7 +33,7 @@ namespace MinimalExample
 				// and when it is created clientside it creates the actual
 				// UI panels. You don't have to create your HUD via an entity,
 				// this just feels like a nice neat way to do it.
-				_ = new MinimalHudEntity();
+				_ = new SquidGameHudEntity();
 
 				CurrentGameMode = new RedLightGreenLight();
 				CurrentGameModeClient = typeof( RedLightGreenLightClient );
@@ -53,7 +53,7 @@ namespace MinimalExample
 		{
 			base.ClientJoined( client );
 
-			MinimalPlayer player = new()
+			SquidGamePlayer player = new()
 			{
 				CurrentGameMode = CurrentGameMode
 			};
@@ -92,7 +92,7 @@ namespace MinimalExample
 		[Event.Entity.PostSpawn]
 		public void Init()
 		{
-			Log.Info( "MinimalGame::Init" );
+			Log.Info( "SquidGame::Init" );
 
 			if ( IsServer )
 			{
@@ -103,7 +103,7 @@ namespace MinimalExample
 
 		public override void PostLevelLoaded()
 		{
-			Log.Info( "MinimalGame::PostLevelLoaded" );
+			Log.Info( "SquidGame::PostLevelLoaded" );
 
 			base.PostLevelLoaded();
 

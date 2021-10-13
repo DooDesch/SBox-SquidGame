@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Sandbox;
-using MinimalExample;
+using SquidGame;
 using System;
 
 public partial class RedLightGreenLight : AbstractGameMode
@@ -39,7 +39,7 @@ public partial class RedLightGreenLight : AbstractGameMode
 
 		foreach ( Client client in Client.All )
 		{
-			if ( client.Pawn is MinimalPlayer player )
+			if ( client.Pawn is SquidGamePlayer player )
 			{
 				if ( !player.CurrentGameModeClient.IsMoving ) return;
 
@@ -56,7 +56,7 @@ public partial class RedLightGreenLight : AbstractGameMode
 
 		foreach ( Client client in Client.All )
 		{
-			if ( client.Pawn is MinimalPlayer player )
+			if ( client.Pawn is SquidGamePlayer player )
 			{
 				player.Velocity = 0;
 				AddPlayer( player );
@@ -71,18 +71,18 @@ public partial class RedLightGreenLight : AbstractGameMode
 
 		foreach ( Client client in Client.All )
 		{
-			if ( client.Pawn is MinimalPlayer player )
+			if ( client.Pawn is SquidGamePlayer player )
 			{
 				player.CanMove = true;
 			}
 		}
 	}
 
-	public override void AddPlayer( MinimalPlayer player )
+	public override void AddPlayer( SquidGamePlayer player )
 	{
 		player.CurrentGameModeClient = new RedLightGreenLightClient
 		{
-			MinimalPlayer = player
+			Player = player
 		};
 
 		if ( PlayerSpawnPointList.Count > 0 )

@@ -2,9 +2,9 @@
 using Sandbox.UI;
 
 [Library]
-public partial class MinimalHudEntity : HudEntity<RootPanel>
+public partial class SquidGameHudEntity : HudEntity<RootPanel>
 {
-	public MinimalHudEntity()
+	public SquidGameHudEntity()
 	{
 		if ( !IsClient )
 			return;

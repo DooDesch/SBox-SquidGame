@@ -1,4 +1,4 @@
-﻿using MinimalExample;
+﻿using SquidGame;
 using Sandbox;
 
 public class NullGameMode : AbstractGameMode
@@ -9,7 +9,7 @@ public class NullGameMode : AbstractGameMode
 		GameState = GAME_STATE.NULL;
 	}
 
-	public override void AddPlayer( MinimalPlayer player )
+	public override void AddPlayer( SquidGamePlayer player )
 	{
 
 	}
