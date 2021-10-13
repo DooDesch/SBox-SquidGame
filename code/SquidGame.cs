@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SquidGame.Entities;
+using SquidGame.Games;
 
 //
 // You don't need to put things in a namespace, but it doesn't hurt.
