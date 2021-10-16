@@ -73,7 +73,7 @@ metadata
 ]
 
 //
-// Fists
+// SquidGame.OriginSandbox.Fists
 //
 @PointClass base(BaseProperties_squidgame) = weapon_fists : ""
 [

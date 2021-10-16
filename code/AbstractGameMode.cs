@@ -120,6 +120,7 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 			if ( client.Pawn is SquidGamePlayer player )
 			{
 				player.CanMove = true;
+				player.CanSprint = true;
 				player.CanRespawn = true;
 
 				if ( player.CurrentGameModeClient.HasWon ) continue;
@@ -134,13 +135,10 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 
 	public virtual void HandleSgSpEntity( SgSp entity )
 	{
-		Log.Info( "Checking entity " + entity.Name );
-
 		if ( !entity.Tags.Has( Tag ) ) return;
 
 		if ( entity.Type.Equals( SgSpEnum.PLAYER ) )
 		{
-			Log.Info( "Found spawnpoint, adding" );
 			PlayerSpawnPoints.Add( entity.Transform );
 		}
 
