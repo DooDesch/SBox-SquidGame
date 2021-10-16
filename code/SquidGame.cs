@@ -50,17 +50,20 @@ namespace SquidGame
 		/// <summary>
 		/// A client has joined the server. Make them a pawn to play with
 		/// </summary>
-		public override void ClientJoined( Client client )
+		public override void ClientJoined( Client cl )
 		{
-			base.ClientJoined( client );
+			base.ClientJoined( cl );
 
-			SquidGamePlayer player = new()
+			SquidGamePlayer player = new( cl )
 			{
 				CurrentGameMode = CurrentGameMode
 			};
 
-			client.Pawn = player;
+			cl.Pawn = player;
+
 			player.Respawn();
+
+			player.Tags.Add( "player" );
 
 			if ( IsServer )
 			{

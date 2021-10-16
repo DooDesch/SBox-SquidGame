@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using System.Linq;
 using System.Collections.Generic;
+using SquidGame.OriginSandbox;
 
 namespace SquidGame
 {
@@ -27,7 +28,10 @@ namespace SquidGame
 		/// <summary>
 		/// Default init
 		/// </summary>
-		public SquidGamePlayer() { }
+		public SquidGamePlayer()
+		{
+			Inventory = new Inventory( this );
+		}
 
 		/// <summary>
 		/// Initialize using this client
@@ -65,7 +69,7 @@ namespace SquidGame
 
 			Clothing.DressEntity( this );
 
-			// Inventory.Add( new Fists() );
+			Inventory.Add( new Fists() );
 
 			base.Respawn();
 		}
@@ -250,7 +254,7 @@ namespace SquidGame
 
 			Corpse = ent;
 
-			ent.DeleteAsync( 10.0f );
+			ent.DeleteAsync( 60.0f );
 		}
 	}
 }
