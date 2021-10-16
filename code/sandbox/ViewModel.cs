@@ -8,7 +8,7 @@ namespace SquidGame.OriginSandbox
 		protected float ReturnSpeed => 5.0f;
 		protected float MaxOffsetLength => 10.0f;
 		protected float BobCycleTime => 7;
-		protected Vector3 BobDirection => new Vector3( 0.0f, 1.0f, 0.5f );
+		protected Vector3 BobDirection => new( 0.0f, 1.0f, 0.5f );
 
 		private Vector3 swingOffset;
 		private float lastPitch;
@@ -56,7 +56,7 @@ namespace SquidGame.OriginSandbox
 
 			var verticalDelta = playerVelocity.z * Time.Delta;
 			var viewDown = Rotation.FromPitch( newPitch ).Up * -1.0f;
-			verticalDelta *= (1.0f - System.MathF.Abs( viewDown.Cross( Vector3.Down ).y ));
+			verticalDelta *= 1.0f - System.MathF.Abs( viewDown.Cross( Vector3.Down ).y );
 			pitchDelta -= verticalDelta * 1;
 
 			var offset = CalcSwingOffset( pitchDelta, yawDelta );
