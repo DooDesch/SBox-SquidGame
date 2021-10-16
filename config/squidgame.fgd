@@ -1,24 +1,22 @@
-// 
-// GameTimer
-// 
-@PointClass 
-metadata
-{
-	entity_tool_name = "Game Timer"
-	entity_tool_group = "Effects"
-	entity_tool_tip = "Spawns a Panel with a Timer/Countdown"
-}
-= info_gametimer : "Spawnpoint for Timer"
+
+@BaseClass = BaseProperties_squidgame
 [
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
 	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	parentAttachmentName(parentAttachment) [ group="Hierarchy" ] : "Parent Model Bone/Attachment Name" : : "The name of the bone or attachment to attach to on the entity's parent in the movement hierarchy. Use !bonemerge to use bone-merge style attachment."
+
+	useLocalOffset(boolean) [ group="Hierarchy" ] : "Use Model Attachment offsets" : 0 : "Whether to respect the specified local offset when doing the initial hierarchical attachment to its parent."
+	local.origin(vector) [ group="Hierarchy" ] : "Model Attachment position offset" : : "Offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+	local.angles(angle) [ group="Hierarchy" ] : "Model Attachment angular offset" : : "Angular offset in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+	local.scales(vector) [ group="Hierarchy" ] : "Model Attachment scale" : : "Scale in the local space of the parent model's attachment/bone to use in hierarchy. Not used if you are not using parent attachment."
+
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	tags(tags) : "Tags" : "" : "A list of general purpose tags for this entity, for interactions with other entities such as triggers."
 ]
 
-// 
+//
 // RlGlMapController
-// 
-@PointClass 
+//
+@PointClass base(BaseProperties_squidgame) 
 metadata
 {
 	entity_tool_name = "Logic RlGl"
@@ -28,9 +26,7 @@ metadata
 }
 = logic_rlgl : "Logic entity for the RlGl Gamemode"
 [
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
-	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input OpenTheRoof(void) : "This will open the roof on the RlGl Map, usually before the beginning of the Game"
 	input CloseTheRoof(void) : "This will close the roof on the RlGl Map, usually at the end of the Game"
@@ -39,20 +35,18 @@ metadata
 	output CloseRoof(void) : ""
 ]
 
-// 
-// Rlgls
-// 
-@PointClass 
+//
+// SgSp
+//
+@PointClass base(BaseProperties_squidgame) drawangles() 
 metadata
 {
-	entity_tool_name = "RlGl Spawnpoint"
+	entity_tool_name = "Squid Game Spawnpoint"
 	entity_tool_group = "Player"
 	entity_tool_tip = "Defines a point where a defined entity can (re)spawn"
 }
-= info_rlgl_spawn : "Spawnpoint for red light green light game"
+= info_sg_spawn : "Spawnpoint for squid game games"
 [
-	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
-	parentname(target_destination) [ group="Hierarchy" ] : "Parent" : : "The name of this entity's parent in the movement hierarchy. Entities with parents move with their parent."
 	type(choices) : "SpawnPoint Type" : 1 : "" =
 	[
 		0 : "DOLL"
@@ -60,6 +54,67 @@ metadata
 		2 : "SUPERVISOR"
 		3 : "GUNNER"
 	]
-	enable_shadows(boolean) [ group="Render Properties" ] : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+]
+
+//
+// GameTimer
+//
+@PointClass base(BaseProperties_squidgame) drawangles() iconsprite( "editor/snd_event.vmat" ) 
+metadata
+{
+	entity_tool_name = "Game Timer"
+	entity_tool_group = "Effects"
+	entity_tool_tip = "Spawns a Panel with a Timer/Countdown"
+}
+= info_gametimer : "Spawnpoint for Timer"
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+]
+
+//
+// Fists
+//
+@PointClass base(BaseProperties_squidgame) = weapon_fists : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
+// SquidGame.Entities.Zone
+//
+@SolidClass base(BaseProperties_squidgame) 
+metadata
+{
+	auto_apply_material = "materials/tools/toolstrigger.vmat"
+}
+= sg_zone : ""
+[
+	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
+	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+	spawnflags(flags) = [
+		1 : "Clients" : 1
+		2 : "Npcs" : 0
+		4 : "Pushables" : 0
+		8 : "Physics Objects" : 0
+		16 : "Allied Npcs" : 0
+		32 : "Client In Vehicle" : 0
+		64 : "Everything" : 0
+		512 : "Client Not In Vehicle" : 0
+		1024 : "Physics Debris" : 0
+	]
+
+	input Enable(void) : "Enables this trigger"
+	input Disable(void) : "Disables this trigger"
+	input Toggle(void) : "Toggles this trigger between enabled and disabled states"
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+
+	output OnStartTouch(void) : "Fired when an entity starts touching this trigger. The touching entity must pass this trigger's filters to cause this output to fire."
+	output OnEndTouch(void) : "Fired when an entity stops touching this trigger. Only entities that passed this trigger's filters will cause this output to fire."
+	output OnStartTouchAll(void) : "Fired when an entity starts touching this trigger while no other passing entities are touching it."
+	output OnEndTouchAll(void) : "Fired when all entities touching this trigger have stopped touching it."
 ]
 

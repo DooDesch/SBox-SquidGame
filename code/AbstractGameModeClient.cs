@@ -1,9 +1,10 @@
 ﻿using Sandbox;
-using MinimalExample;
-public abstract class AbstractGameModeClient : Networked
+using SquidGame;
+public abstract class AbstractGameModeClient : BaseNetworkable
 {
-	public MinimalPlayer minimalPlayer { get; set; }
-	public bool isMoving { get; set; }
+	public SquidGamePlayer Player { get; set; }
+	public bool IsMoving { get; set; }
+	public bool HasWon { get; set; } = false;
 
 	public abstract void Init();
 }

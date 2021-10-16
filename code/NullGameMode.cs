@@ -1,17 +1,17 @@
-﻿using MinimalExample;
+﻿using SquidGame;
 using Sandbox;
 
 public class NullGameMode : AbstractGameMode
 {
 	public NullGameMode()
 	{
-		gameState = GAME_STATE.NULL;
-		Log.Info( "Fuck me im the null GameMode" );
+		Log.Info( "NullGameMode::Constructor" );
+		GameState = GAME_STATE.NULL;
 	}
 
-	public override void AddPlayer( MinimalPlayer player)
+	public override void AddPlayer( SquidGamePlayer player )
 	{
-		
+
 	}
 
 	public override string GetGameText()
@@ -21,11 +21,11 @@ public class NullGameMode : AbstractGameMode
 
 	public override void Init()
 	{
-		base.Init();
+		// base.Init();
 	}
 
 	public override void OnTick()
 	{
-		
+
 	}
 }
