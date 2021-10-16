@@ -86,6 +86,8 @@ namespace SquidGame
 
 			EnableAllCollisions = false;
 			EnableDrawing = false;
+
+			Inventory.DeleteContents();
 		}
 
 		public override void TakeDamage( DamageInfo info )
