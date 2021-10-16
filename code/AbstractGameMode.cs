@@ -120,6 +120,7 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 			if ( client.Pawn is SquidGamePlayer player )
 			{
 				player.CanMove = true;
+				player.CanSprint = true;
 				player.CanRespawn = true;
 
 				if ( player.CurrentGameModeClient.HasWon ) continue;
