@@ -52,7 +52,7 @@ namespace SquidGame.Games
 			{
 				if ( client.Pawn is SquidGamePlayer player )
 				{
-					if ( player.Health <= 0 ) return;
+					if ( player.LifeState != LifeState.Alive ) return;
 
 					if ( player.CurrentGameModeClient.HasWon ) return;
 
