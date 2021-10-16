@@ -1,11 +1,13 @@
 ﻿using Sandbox;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SquidGame
 {
 	public partial class SquidGamePlayer : Player
 	{
+		[Net] public List<GameTimer> GameTimers { get; set; } = new List<GameTimer>();
 
 		[Net] public AbstractGameMode CurrentGameMode { get; set; } = new NullGameMode();
 		[Net] public AbstractGameModeClient CurrentGameModeClient { get; set; } = new NullGameModeClient();
@@ -17,6 +19,8 @@ namespace SquidGame
 		public bool CanMove { get; set; } = true;
 
 		public bool CanRespawn { get; set; } = true;
+
+		public bool CanSprint { get; set; } = true;
 
 		/// <summary>
 		/// Default init
@@ -30,6 +34,21 @@ namespace SquidGame
 		{
 			// Load clothing from client data
 			Clothing.LoadFromClient( cl );
+
+			// foreach ( GameTimer gameTimer in Entity.All.OfType<GameTimer>() )
+			// {
+			// 	GameTimers.Add( gameTimer );
+			// }
+		}
+
+		[Event.Entity.PostSpawn]
+		private void AddGameTimers()
+		{
+			Log.Warning( "SquidGamePlayer::AddGameTimers" );
+			foreach ( GameTimer gameTimer in All.OfType<GameTimer>() )
+			{
+				GameTimers.Add( gameTimer );
+			}
 		}
 
 		public override void Respawn()
@@ -87,6 +106,23 @@ namespace SquidGame
 			base.OnKilled();
 
 			EnableDrawing = false;
+		}
+
+		public virtual void UpdateGameTimers( int time )
+		{
+			Log.Warning( "SquidGamePlayer::UpdateGameTimers" );
+			Log.Info( "GameTimers : " + GameTimers.Count );
+
+
+			foreach ( GameTimer gameTimer in All.OfType<GameTimer>() )
+			{
+				gameTimer.UpdateTimer( time );
+			}
+
+			// foreach ( GameTimer gameTimer in GameTimers )
+			// {
+			// 	gameTimer.UpdateTimer( time );
+			// }
 		}
 	}
 }

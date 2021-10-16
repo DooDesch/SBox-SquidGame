@@ -1,4 +1,5 @@
 using Sandbox;
+using SquidGame;
 
 [Library( "info_gametimer", Description = "Spawnpoint for Timer" )]
 [Hammer.DrawAngles]
@@ -6,7 +7,7 @@ using Sandbox;
 [Hammer.EntityTool( "Game Timer", "Effects", "Spawns a Panel with a Timer/Countdown" )]
 public partial class GameTimer : Entity
 {
-	TimerUI TimerUI;
+	private TimerUI TimerUI;
 
 	public override void Spawn()
 	{
@@ -21,12 +22,20 @@ public partial class GameTimer : Entity
 
 		TimerUI = new();
 		TimerUI.Transform = Transform;
-
 		TimerUI.Transform = TimerUI.Transform.WithPosition( TimerUI.Transform.Position + TimerUI.Transform.Rotation.Forward * 0.05f );
+
+		// if ( Local.Client.Pawn is SquidGamePlayer player )
+		// {
+		// 	player.GameTimers.Add( this );
+		// }
 	}
 
 	public void UpdateTimer( int time )
 	{
+		Log.Info( "GameTimer::UpdateTimer" );
+
+		if ( TimerUI == null ) return;
+
 		TimerUI.UpdateTimer( time );
 	}
 }

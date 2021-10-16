@@ -38,7 +38,7 @@ metadata
 //
 // SgSp
 //
-@PointClass base(BaseProperties_squidgame) 
+@PointClass base(BaseProperties_squidgame) drawangles() 
 metadata
 {
 	entity_tool_name = "Squid Game Spawnpoint"
@@ -70,6 +70,16 @@ metadata
 = info_gametimer : "Spawnpoint for Timer"
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+]
+
+//
+// Fists
+//
+@PointClass base(BaseProperties_squidgame) = weapon_fists : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]
 
 //
