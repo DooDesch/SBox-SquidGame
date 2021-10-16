@@ -14,8 +14,20 @@ public class SquidGameWalkController : WalkController
 
 	public override float GetWishSpeed()
 	{
+		if ( Player == null ) return 0f;
 		if ( Player != null && !Player.CanMove ) return 0f;
 
-		return base.GetWishSpeed();
+		var ws = Duck.GetWishSpeed();
+		if ( ws >= 0 ) return ws;
+
+		if ( Input.Down( InputButton.Run ) && CanSprint() ) return SprintSpeed;
+		if ( Input.Down( InputButton.Walk ) ) return WalkSpeed;
+
+		return DefaultSpeed;
+	}
+
+	public bool CanSprint()
+	{
+		return Player == null || Player.CanSprint;
 	}
 }

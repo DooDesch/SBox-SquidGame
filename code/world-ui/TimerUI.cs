@@ -8,7 +8,7 @@ class TimerUI : WorldPanel
 	public Label Label;
 	public SquidGamePlayer Player { get; }
 
-	private int maxTime = 300;
+	private int maxTime = 70;
 	private TimeSince timeSinceStarted = 0;
 
 	public TimerUI() : base()

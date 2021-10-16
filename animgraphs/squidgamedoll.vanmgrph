@@ -49,6 +49,33 @@
 	{
 		m_id = 4294967295
 	}
-	m_previewModels = [  ]
-	m_nodes = [  ]
+	m_previewModels = 
+	[
+		"models/props_squidgame/squidgamedoll/squidgamedoll.vmdl",
+	]
+	m_nodes = 
+	[
+		{
+			key = 
+			{
+				m_id = 674219052
+			}
+			value = 
+			{
+				_class = "CSequenceAnimNode"
+				m_sName = "Unnamed"
+				m_vecPosition = [ -192.0, -32.0 ]
+				m_nNodeID = 
+				{
+					m_id = 674219052
+				}
+				m_networkMode = "ServerAuthoritative"
+				m_sNote = ""
+				m_tagSpans = [  ]
+				m_sequenceName = ""
+				m_playbackSpeed = 1.0
+				m_bLoop = false
+			}
+		},
+	]
 }

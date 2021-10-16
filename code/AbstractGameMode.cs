@@ -31,10 +31,11 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 		ENDING,
 		NULL
 	}
-	[Net] public GAME_STATE GameState { get; set; } = GAME_STATE.NOT_STARTED;
-	[Net] public List<Transform> PlayerSpawnPointList { get; set; } = new List<Transform>();
+
 	[Net] public Random Rand { get; set; }
+	[Net] public List<Transform> PlayerSpawnPoints { get; set; } = new List<Transform>();
 	[Net] public TimeUntil TimeUntil { get; set; } = new TimeUntil();
+	[Net] public GAME_STATE GameState { get; set; } = GAME_STATE.NOT_STARTED;
 	[Net] public GameStateTimer GameStateTimer { get; set; } = new GameStateTimer();
 
 	/// <summary>
@@ -50,6 +51,7 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 
 	public virtual void Init()
 	{
+		Log.Info( "AbstractGameMode::Init" );
 		Ready();
 	}
 
@@ -76,22 +78,15 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 	{
 		Log.Info( "AbstractGameMode::Ready" );
 
+		Log.Info( "Entities : " + Entity.All.OfType<SgSp>().Count() );
 		foreach ( SgSp entity in Entity.All.OfType<SgSp>() )
 		{
-			if ( !entity.Tags.Has( Tag ) ) return;
-
-			if ( entity.Type.Equals( SgSpEnum.PLAYER ) )
-			{
-				PlayerSpawnPointList.Add( entity.Transform );
-			}
-
-			// TODO : Add Entity-Type DOLL
-			// TODO : Add Entity-Type GUNNER
-			// TODO : Add Entity-Type OVERSEER
+			HandleSgSpEntity( entity );
 		}
 
 		GameState = GAME_STATE.READY;
 		GameStateTimer.Ready = 0;
+		UpdateGameTimers( TimeUntil.GameSetup );
 	}
 
 	public virtual void Setup()
@@ -100,6 +95,7 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 
 		GameState = GAME_STATE.SETUP;
 		GameStateTimer.Setup = 0;
+		UpdateGameTimers( TimeUntil.GameStarts );
 	}
 
 	public virtual void Start()
@@ -108,6 +104,7 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 
 		GameState = GAME_STATE.STARTING;
 		GameStateTimer.Started = 0;
+		UpdateGameTimers( TimeUntil.GameEnds );
 	}
 
 	public virtual void End()
@@ -116,17 +113,47 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 
 		GameState = GAME_STATE.ENDING;
 		GameStateTimer.Ended = 0;
+		UpdateGameTimers( TimeUntil.NextGame );
 
 		foreach ( Client client in Client.All )
 		{
 			if ( client.Pawn is SquidGamePlayer player )
 			{
+				player.CanMove = true;
+				player.CanRespawn = true;
+
 				if ( player.CurrentGameModeClient.HasWon ) continue;
 
 				// Everbody that didn't win the game, will be disqualified
 				var dmgInfo = new DamageInfo().WithForce( Vector3.Up );
 				dmgInfo.Damage = player.Health;
 				player.TakeDamage( dmgInfo );
+			}
+		}
+	}
+
+	public virtual void HandleSgSpEntity( SgSp entity )
+	{
+		Log.Info( "Checking entity " + entity.Name );
+
+		if ( !entity.Tags.Has( Tag ) ) return;
+
+		if ( entity.Type.Equals( SgSpEnum.PLAYER ) )
+		{
+			Log.Info( "Found spawnpoint, adding" );
+			PlayerSpawnPoints.Add( entity.Transform );
+		}
+
+		// TODO : Add Entity-Type GUNNER
+		// TODO : Add Entity-Type OVERSEER
+	}
+	public virtual void UpdateGameTimers( int time )
+	{
+		foreach ( Client client in Client.All )
+		{
+			if ( client.Pawn is SquidGamePlayer player )
+			{
+				player.UpdateGameTimers( time );
 			}
 		}
 	}

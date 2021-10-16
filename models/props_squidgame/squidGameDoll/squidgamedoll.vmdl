@@ -85,7 +85,7 @@
 						_class = "RenderMeshFile"
 						name = "squidGameDoll"
 						filename = "models/props_squidgame/squidGameDoll/squidGameDoll.fbx"
-						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_translation = [ 50.0, 0.0, 450.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
 						import_scale = 1.0
 						align_origin_x_type = "None"
