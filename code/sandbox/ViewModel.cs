@@ -70,10 +70,10 @@ namespace SquidGame.OriginSandbox
 
 		protected Vector3 CalcSwingOffset( float pitchDelta, float yawDelta )
 		{
-			Vector3 swingVelocity = new Vector3( 0, yawDelta, pitchDelta );
+			Vector3 swingVelocity = new( 0, yawDelta, pitchDelta );
 
 			swingOffset -= swingOffset * ReturnSpeed * Time.Delta;
-			swingOffset += (swingVelocity * SwingInfluence);
+			swingOffset += swingVelocity * SwingInfluence;
 
 			if ( swingOffset.Length > MaxOffsetLength )
 			{
