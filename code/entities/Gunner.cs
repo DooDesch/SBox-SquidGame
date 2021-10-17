@@ -25,9 +25,6 @@ namespace SquidGame.Entities
 		/// </summary>
 		public virtual void ShootBullet( Vector3 pos, Vector3 dir, float spread, float force, float damage, float bulletSize )
 		{
-			var forward = dir;
-			forward = forward.Normal;
-
 			//
 			// ShootBullet is coded in a way where we can have bullets pass through shit
 			// or bounce off shit, in which case it'll return multiple results
@@ -44,7 +41,7 @@ namespace SquidGame.Entities
 				//
 				using ( Prediction.Off() )
 				{
-					var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, damage )
+					var damageInfo = DamageInfo.FromBullet( tr.EndPos, tr.Direction * 100 * force, damage )
 						.UsingTraceResult( tr )
 						.WithAttacker( Owner )
 						.WithWeapon( this );
@@ -70,7 +67,7 @@ namespace SquidGame.Entities
 					.Size( radius )
 					.Run();
 
-			// DebugOverlay.Line( tr.StartPos, tr.EndPos );
+			DebugOverlay.Line( tr.StartPos, tr.EndPos );
 
 			yield return tr;
 		}
