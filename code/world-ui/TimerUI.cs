@@ -28,16 +28,16 @@ partial class TimerUI : WorldPanel
 	{
 		base.Tick();
 
-		if ( Player != null && Player.CurrentGameMode != null )
+		if ( Player is not null && Player.CurrentGameMode is not null )
 		{
 			timeSinceStarted = (int)Player.CurrentGameMode.GameStateTimer;
-			maxTime = (int)Player.CurrentGameMode.NextGameStateTime;
+			maxTime = Player.CurrentGameMode.NextGameStateTime;
 		}
 
-		int diff = maxTime - (int)timeSinceStarted;
+		int diff = maxTime - timeSinceStarted;
 		if ( diff < 0 ) diff = 0;
-		string minutes = ((int)diff / 60).ToString().PadLeft( 2, '0' );
-		string seconds = ((int)(diff % 60)).ToString().PadLeft( 2, '0' );
+		string minutes = (diff / 60).ToString().PadLeft( 2, '0' );
+		string seconds = (diff % 60).ToString().PadLeft( 2, '0' );
 		Label.Text = $"{minutes}:{seconds}";
 
 		SetPanelBounds();

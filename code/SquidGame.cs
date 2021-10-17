@@ -78,8 +78,6 @@ namespace SquidGame
 				CurrentGameModeClient = typeof( NullGameModeClient );
 			}
 
-			// UpdatePlayerGamemodes();
-
 			if ( IsServer )
 			{
 				CurrentGameMode.Init();
