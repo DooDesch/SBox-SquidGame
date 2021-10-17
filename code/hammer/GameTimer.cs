@@ -23,10 +23,5 @@ public partial class GameTimer : Entity
 		TimerUI = new();
 		TimerUI.Transform = Transform;
 		TimerUI.Transform = TimerUI.Transform.WithPosition( TimerUI.Transform.Position + TimerUI.Transform.Rotation.Forward * 0.05f );
-
-		// if ( Local.Client.Pawn is SquidGamePlayer player )
-		// {
-		// 	player.GameTimers.Add( this );
-		// }
 	}
 }
