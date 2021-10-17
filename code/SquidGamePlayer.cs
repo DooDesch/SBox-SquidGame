@@ -12,7 +12,7 @@ namespace SquidGame
 		public AbstractGameMode CurrentGameMode { get; set; }
 		public AbstractGameModeClient CurrentGameModeClient { get; set; } = new NullGameModeClient();
 		[Net, Predicted] public ICamera MainCamera { get; set; }
-		public Transform SpawnPosition { get; set; }
+		[Net] public Transform SpawnPosition { get; set; }
 
 		public ICamera LastCamera { get; set; }
 

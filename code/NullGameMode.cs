@@ -27,7 +27,7 @@ public class NullGameMode : AbstractGameMode
 
 	public override void Init()
 	{
-		// base.Init();
+		UpdateGameTimers( TimeUntil.NextGame );
 	}
 
 	public override void Ready()
