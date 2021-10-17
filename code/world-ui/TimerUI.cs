@@ -3,17 +3,22 @@ using Sandbox.UI;
 using Sandbox.UI.Construct;
 using SquidGame;
 
-class TimerUI : WorldPanel
+partial class TimerUI : WorldPanel
 {
 	public Label Label;
-	public SquidGamePlayer Player { get; }
+	public SquidGamePlayer Player { get; set; }
 
-	private int maxTime = 70;
-	private TimeSince timeSinceStarted = 0;
+	public int maxTime { get; set; } = 70;
+	public int timeSinceStarted { get; set; } = 0;
 
 	public TimerUI() : base()
 	{
 		SetPanelBounds();
+
+		if ( Local.Pawn is SquidGamePlayer player )
+		{
+			Player = player;
+		}
 
 		StyleSheet.Load( "/world-ui/World-UI.scss" );
 		Label = Add.Label( "100" );
@@ -22,6 +27,13 @@ class TimerUI : WorldPanel
 	public override void Tick()
 	{
 		base.Tick();
+
+		if ( Player != null && Player.CurrentGameMode != null )
+		{
+			timeSinceStarted = (int)Player.CurrentGameMode.GameStateTimer;
+			maxTime = (int)Player.CurrentGameMode.NextGameStateTime;
+		}
+
 		int diff = maxTime - (int)timeSinceStarted;
 		if ( diff < 0 ) diff = 0;
 		string minutes = ((int)diff / 60).ToString().PadLeft( 2, '0' );
@@ -38,11 +50,5 @@ class TimerUI : WorldPanel
 		var w = 2300;
 		var h = 1160;
 		PanelBounds = new Rect( -(w / 2), -110 - (h / 2), w, h );
-	}
-
-	public void UpdateTimer( int time )
-	{
-		maxTime = time;
-		timeSinceStarted = 0;
 	}
 }

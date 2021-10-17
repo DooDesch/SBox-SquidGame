@@ -1,8 +1,10 @@
-﻿using System;
+﻿using System.Reflection.Metadata;
+using System;
 using System.Linq;
 using System.Collections.Generic;
-using SquidGame;
 using Sandbox;
+using SquidGame;
+using SquidGame.Entities;
 
 public class TimeUntil
 {
@@ -10,14 +12,6 @@ public class TimeUntil
 	public int GameStarts = 120;
 	public int GameEnds = 300;
 	public int NextGame = 120;
-}
-
-public class GameStateTimer
-{
-	public TimeSince Ready;
-	public TimeSince Setup;
-	public TimeSince Started;
-	public TimeSince Ended;
 }
 
 public abstract partial class AbstractGameMode : BaseNetworkable
@@ -34,15 +28,18 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 
 	[Net] public Random Rand { get; set; }
 	[Net] public List<Transform> PlayerSpawnPoints { get; set; } = new List<Transform>();
+	[Net] public List<Transform> SupervisorSpawnPoints { get; set; } = new List<Transform>();
+	[Net] public List<Transform> GunnerSpawnPoints { get; set; } = new List<Transform>();
 	[Net] public TimeUntil TimeUntil { get; set; } = new TimeUntil();
 	[Net] public GAME_STATE GameState { get; set; } = GAME_STATE.NOT_STARTED;
-	[Net] public GameStateTimer GameStateTimer { get; set; } = new GameStateTimer();
+	[Net] public TimeSince GameStateTimer { get; set; }
+	[Net] public int NextGameStateTime { get; set; } = 0;
 
 	/// <summary>
 	/// Set to define entities that belong to this gamemode
 	/// </summary>
 	/// <value></value>
-	protected string Tag { get; set; }
+	[Net] protected string Tag { get; set; }
 
 	public AbstractGameMode()
 	{
@@ -57,17 +54,17 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 
 	public virtual void OnTick()
 	{
-		if ( GameState.Equals( GAME_STATE.READY ) && GameStateTimer.Ready > TimeUntil.GameSetup )
+		if ( GameState.Equals( GAME_STATE.READY ) && GameStateTimer > TimeUntil.GameSetup )
 		{
 			// Game is ready to start, it'll be setup (e.g. all players will be teleported)
 			Setup();
 		}
-		else if ( GameState.Equals( GAME_STATE.SETUP ) && GameStateTimer.Setup > TimeUntil.GameStarts )
+		else if ( GameState.Equals( GAME_STATE.SETUP ) && GameStateTimer > TimeUntil.GameStarts )
 		{
 			// All players are already teleported and introduced to the game, the game will start now
 			Start();
 		}
-		else if ( GameState.Equals( GAME_STATE.STARTING ) && GameStateTimer.Started > TimeUntil.GameEnds )
+		else if ( GameState.Equals( GAME_STATE.STARTING ) && GameStateTimer > TimeUntil.GameEnds )
 		{
 			// The time is over, the game ends now
 			End();
@@ -76,16 +73,15 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 
 	public virtual void Ready()
 	{
-		Log.Info( "AbstractGameMode::Ready" );
+		Log.Warning( "AbstractGameMode::Ready" );
 
-		Log.Info( "Entities : " + Entity.All.OfType<SgSp>().Count() );
 		foreach ( SgSp entity in Entity.All.OfType<SgSp>() )
 		{
 			HandleSgSpEntity( entity );
 		}
 
 		GameState = GAME_STATE.READY;
-		GameStateTimer.Ready = 0;
+		// GameStateTimer = 0;
 		UpdateGameTimers( TimeUntil.GameSetup );
 	}
 
@@ -94,7 +90,7 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 		Log.Info( "AbstractGameMode::Setup" );
 
 		GameState = GAME_STATE.SETUP;
-		GameStateTimer.Setup = 0;
+		// GameStateTimer = 0;
 		UpdateGameTimers( TimeUntil.GameStarts );
 	}
 
@@ -103,7 +99,7 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 		Log.Info( "AbstractGameMode::Start" );
 
 		GameState = GAME_STATE.STARTING;
-		GameStateTimer.Started = 0;
+		// GameStateTimer = 0;
 		UpdateGameTimers( TimeUntil.GameEnds );
 	}
 
@@ -112,7 +108,7 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 		Log.Info( "AbstractGameMode::End" );
 
 		GameState = GAME_STATE.ENDING;
-		GameStateTimer.Ended = 0;
+		// GameStateTimer = 0;
 		UpdateGameTimers( TimeUntil.NextGame );
 
 		foreach ( Client client in Client.All )
@@ -141,19 +137,26 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 		{
 			PlayerSpawnPoints.Add( entity.Transform );
 		}
-
-		// TODO : Add Entity-Type GUNNER
-		// TODO : Add Entity-Type OVERSEER
+		else if ( entity.Type.Equals( SgSpEnum.GUNNER ) )
+		{
+			GunnerSpawnPoints.Add( entity.Transform );
+		}
+		else if ( entity.Type.Equals( SgSpEnum.SUPERVISOR ) )
+		{
+			SupervisorSpawnPoints.Add( entity.Transform );
+		}
 	}
 	public virtual void UpdateGameTimers( int time )
 	{
-		foreach ( Client client in Client.All )
-		{
-			if ( client.Pawn is SquidGamePlayer player )
-			{
-				player.UpdateGameTimers( time );
-			}
-		}
+		GameStateTimer = 0;
+		NextGameStateTime = time;
+		// foreach ( Client client in Client.All )
+		// {
+		// 	if ( client.Pawn is SquidGamePlayer player )
+		// 	{
+		// 		player.UpdateGameTimers( time );
+		// 	}
+		// }
 	}
 
 	public abstract void AddPlayer( SquidGamePlayer player );

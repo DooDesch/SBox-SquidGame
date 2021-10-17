@@ -12,20 +12,20 @@ namespace SquidGame.Games
 		[Net] public bool MovementAllowed { get; set; } = true;
 		[Net] public RlGlDoll Doll { get; set; }
 
-		private bool DollDone = true;
+		[Net] private bool DollDone { get; set; } = true;
 
 		public RedLightGreenLight()
 		{
-			Log.Info( "RedLightGreenLight::Constructor" );
+			Log.Warning( "RedLightGreenLight::Constructor" );
 			Tag = "RedLightGreenLight";
 			GameState = GAME_STATE.NOT_STARTED;
 			TimeUntil = new TimeUntil
 			{
 				GameSetup = 5,
 				GameStarts = 5,
-				GameEnds = 60,
+				// GameEnds = 60,
+				GameEnds = 360,
 			};
-			Doll = new RlGlDoll();
 		}
 
 		public override void Init()
@@ -42,9 +42,6 @@ namespace SquidGame.Games
 
 			if ( !GameState.Equals( GAME_STATE.STARTING ) ) return;
 
-
-
-			// MovementAllowed = GameStateTimer.Started % 10 > 1;
 			DollRound();
 			if ( MovementAllowed ) return;
 
@@ -65,10 +62,31 @@ namespace SquidGame.Games
 
 		public async void ShootPlayer( SquidGamePlayer player )
 		{
-			// Log.Info("You dead");
 			await GameTask.DelaySeconds( .1f );
-			Doll.PlaySound( "rust_pistol.shoot" ).SetRandomPitch( .93f, 1.07f );
-			player.TakeDamage( DamageInfo.Generic( player.Health ) ); // TODO : Uncomment, so the player gets damaged again
+
+			if ( !Doll.CheckPlayer( player ) ) return;
+
+
+
+			if ( GunnerSpawnPoints.Count > 0 )
+			{
+				// int gunnerCount = Entity.All.OfType<Gunner>().Count();
+				// Gunner gunner = Entity.All.OfType<Gunner>().ElementAt( Rand.Next( 0, gunnerCount ) );
+				Transform gunnerPos = GunnerSpawnPoints[Rand.Next( 0, GunnerSpawnPoints.Count )];
+
+				Gunner gunner = new Gunner()
+				{
+					Transform = gunnerPos
+				};
+				// Sound.FromWorld( "rust_pistol.shoot", gunner.Position );
+				gunner.ShootAtTarget( player, player.EyePos );
+				gunner.Delete();
+			}
+			else
+			{
+				Doll.PlaySound( "rust_pistol.shoot" ).SetRandomPitch( .93f, 1.07f );
+				player.TakeDamage( DamageInfo.Generic( player.Health ) ); // TODO : Uncomment, so the player gets damaged again
+			}
 		}
 
 		public async void DollRound()
@@ -93,6 +111,13 @@ namespace SquidGame.Games
 			Doll.TurnBack();
 			DollDone = true;
 			Log.Info( "Doll round is done" );
+		}
+
+		public override void Ready()
+		{
+			base.Ready();
+
+			GetDoll();
 		}
 
 		public override void Setup()
@@ -140,14 +165,13 @@ namespace SquidGame.Games
 			player.CurrentGameModeClient.Init();
 		}
 
-		public override void HandleSgSpEntity( SgSp entity )
+		public void GetDoll()
 		{
-			base.HandleSgSpEntity( entity );
-
-			if ( entity.Type.Equals( SgSpEnum.DOLL ) )
+			foreach ( RlGlDoll entity in Entity.All.OfType<RlGlDoll>() )
 			{
-				Doll.Position = entity.Position;
-				Doll.Rotation = entity.Rotation;
+				if ( !entity.Tags.Has( Tag ) ) return;
+
+				Doll = entity;
 			}
 		}
 

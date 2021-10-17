@@ -14,9 +14,9 @@ public class GameStatePanel : Panel
 
 	public override void Tick()
 	{
-		if ( Local.Pawn is SquidGamePlayer player )
-		{
-			Label.Text = "_________" + $"{player.CurrentGameMode.GetGameText()}";
-		}
+		// if ( Local.Pawn is SquidGamePlayer player )
+		// {
+		// 	Label.Text = "_________" + $"{player.CurrentGameMode.GetGameText()}";
+		// }
 	}
 }
