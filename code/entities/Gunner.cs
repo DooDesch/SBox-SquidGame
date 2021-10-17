@@ -67,7 +67,7 @@ namespace SquidGame.Entities
 					.Size( radius )
 					.Run();
 
-			DebugOverlay.Line( tr.StartPos, tr.EndPos );
+			// DebugOverlay.Line( tr.StartPos, tr.EndPos );
 
 			yield return tr;
 		}
