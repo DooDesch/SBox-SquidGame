@@ -9,8 +9,7 @@ namespace SquidGame
 	{
 		private DamageInfo lastDamage;
 
-		[Net] public List<GameTimer> GameTimers { get; set; } = new List<GameTimer>();
-		[Net] public AbstractGameMode CurrentGameMode { get; set; } = new NullGameMode();
+		[Net] public AbstractGameMode CurrentGameMode { get; set; }
 		[Net] public AbstractGameModeClient CurrentGameModeClient { get; set; } = new NullGameModeClient();
 		[Net, Predicted] public ICamera MainCamera { get; set; }
 
@@ -151,34 +150,6 @@ namespace SquidGame
 			}
 
 			Camera = GetActiveCamera();
-		}
-
-		public virtual void UpdateGameTimers( int time )
-		{
-			Log.Warning( "SquidGamePlayer::UpdateGameTimers" );
-			Log.Info( "GameTimers : " + GameTimers.Count );
-
-			foreach ( GameTimer gameTimer in All.OfType<GameTimer>() )
-			{
-				gameTimer.UpdateTimer( time );
-			}
-
-			// TODO : The original idea was to save the GameTimers initially in an own list
-
-			// foreach ( GameTimer gameTimer in GameTimers )
-			// {
-			// 	gameTimer.UpdateTimer( time );
-			// }
-		}
-
-		[Event.Entity.PostSpawn]
-		public void AddGameTimers()
-		{
-			Log.Warning( "SquidGamePlayer::AddGameTimers" );
-			foreach ( GameTimer gameTimer in All.OfType<GameTimer>() )
-			{
-				GameTimers.Add( gameTimer );
-			}
 		}
 
 		[ClientRpc]
