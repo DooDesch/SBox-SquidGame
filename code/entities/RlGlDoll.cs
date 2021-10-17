@@ -19,11 +19,10 @@ namespace SquidGame.Entities
 			Scale = 0.2f;
 		}
 
-		public void SayRedLightGreenLight()
+		public void SayRedLightGreenLight(float pitch )
 		{
 			Log.Info( "RlGlDoll::SayRedLightGreenLight" );
-			PlaySound( "doll_sound_speaking" );
-			// Sound.FromEntity( "doll_sound_speaking", this );
+			PlaySound( "doll_sound_speaking" ).SetPitch( pitch );
 		}
 
 		public void TurnAround()
@@ -31,7 +30,6 @@ namespace SquidGame.Entities
 			Log.Info( "RlGlDoll::TurnAround" );
 			Rotation = Rotation.RotateAroundAxis( Vector3.Up, 180f );
 			PlaySound( "doll_sound_ending" );
-			// Sound.FromEntity( "doll_sound_ending", this );
 		}
 
 		public void TurnBack()
