@@ -93,9 +93,10 @@ namespace SquidGame.Games
 			Log.Info( "Starting new doll round" );
 			DollDone = false;
 
+			float pitch = Rand.Float( 1f, 2f );
 			await GameTask.DelaySeconds( .1f );
-			Doll.SayRedLightGreenLight();
-			await GameTask.DelaySeconds( 4.5f );
+			Doll.SayRedLightGreenLight( pitch );
+			await GameTask.DelaySeconds( 4.5f / pitch );
 
 			float secondsUntilShooting = .3f;
 			Doll.TurnAround();
