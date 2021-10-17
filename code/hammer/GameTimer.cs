@@ -29,13 +29,4 @@ public partial class GameTimer : Entity
 		// 	player.GameTimers.Add( this );
 		// }
 	}
-
-	public void UpdateTimer( int time )
-	{
-		Log.Info( "GameTimer::UpdateTimer" );
-
-		if ( TimerUI == null ) return;
-
-		TimerUI.UpdateTimer( time );
-	}
 }
