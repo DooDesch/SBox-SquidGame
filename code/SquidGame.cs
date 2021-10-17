@@ -71,6 +71,13 @@ namespace SquidGame
 			}
 			else if ( GamePhase.Equals( GAME_PHASE.RLGL ) )
 			{
+				Log.Info( "Next game is HOCO" );
+				GamePhase = GAME_PHASE.HOCO;
+				CurrentGameMode = new HoneyComb();
+				CurrentGameModeClient = typeof( HoneyCombClient );
+			}
+			else if ( GamePhase.Equals( GAME_PHASE.HOCO ) )
+			{
 				Log.Info( "Next game is NULL" );
 				// TODO : Replace with next game
 				GamePhase = GAME_PHASE.NULL;
