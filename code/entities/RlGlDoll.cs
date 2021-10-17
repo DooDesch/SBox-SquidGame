@@ -23,7 +23,6 @@ namespace SquidGame.Entities
 		{
 			Log.Info( "RlGlDoll::SayRedLightGreenLight" );
 			PlaySound( "doll_sound_speaking" );
-			// Sound.FromEntity( "doll_sound_speaking", this );
 		}
 
 		public void TurnAround()
@@ -31,7 +30,6 @@ namespace SquidGame.Entities
 			Log.Info( "RlGlDoll::TurnAround" );
 			Rotation = Rotation.RotateAroundAxis( Vector3.Up, 180f );
 			PlaySound( "doll_sound_ending" );
-			// Sound.FromEntity( "doll_sound_ending", this );
 		}
 
 		public void TurnBack()
