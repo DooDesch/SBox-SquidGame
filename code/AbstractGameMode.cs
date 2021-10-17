@@ -23,6 +23,7 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 		SETUP,
 		STARTING,
 		ENDING,
+		END,
 		NULL
 	}
 
@@ -39,7 +40,7 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 	/// Set to define entities that belong to this gamemode
 	/// </summary>
 	/// <value></value>
-	[Net] protected string Tag { get; set; }
+	[Net] public string Tag { get; set; }
 
 	public AbstractGameMode()
 	{
@@ -66,6 +67,11 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 		}
 		else if ( GameState.Equals( GAME_STATE.STARTING ) && GameStateTimer > TimeUntil.GameEnds )
 		{
+			// The time is over, the game cleans up now
+			PreEnd();
+		}
+		else if ( GameState.Equals( GAME_STATE.ENDING ) && GameStateTimer > TimeUntil.NextGame )
+		{
 			// The time is over, the game ends now
 			End();
 		}
@@ -81,34 +87,30 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 		}
 
 		GameState = GAME_STATE.READY;
-		// GameStateTimer = 0;
 		UpdateGameTimers( TimeUntil.GameSetup );
 	}
 
 	public virtual void Setup()
 	{
-		Log.Info( "AbstractGameMode::Setup" );
+		Log.Warning( "AbstractGameMode::Setup" );
 
 		GameState = GAME_STATE.SETUP;
-		// GameStateTimer = 0;
 		UpdateGameTimers( TimeUntil.GameStarts );
 	}
 
 	public virtual void Start()
 	{
-		Log.Info( "AbstractGameMode::Start" );
+		Log.Warning( "AbstractGameMode::Start" );
 
 		GameState = GAME_STATE.STARTING;
-		// GameStateTimer = 0;
 		UpdateGameTimers( TimeUntil.GameEnds );
 	}
 
-	public virtual void End()
+	public virtual void PreEnd()
 	{
-		Log.Info( "AbstractGameMode::End" );
+		Log.Warning( "AbstractGameMode::PreEnd" );
 
 		GameState = GAME_STATE.ENDING;
-		// GameStateTimer = 0;
 		UpdateGameTimers( TimeUntil.NextGame );
 
 		foreach ( Client client in Client.All )
@@ -117,7 +119,6 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 			{
 				player.CanMove = true;
 				player.CanSprint = true;
-				player.CanRespawn = true;
 
 				if ( player.CurrentGameModeClient.HasWon ) continue;
 
@@ -127,6 +128,29 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 				player.TakeDamage( dmgInfo );
 			}
 		}
+	}
+
+	public virtual void End()
+	{
+		Log.Warning( "AbstractGameMode::End" );
+
+		GameState = GAME_STATE.END;
+
+		foreach ( Client client in Client.All )
+		{
+			if ( client.Pawn is SquidGamePlayer player )
+			{
+				if ( player.CurrentGameModeClient.HasWon )
+				{
+					player.Transform = player.SpawnPosition;
+				}
+
+				player.CanRespawn = true;
+				player.CurrentGameModeClient.HasWon = false;
+			}
+		}
+
+		StartNextPhase();
 	}
 
 	public virtual void HandleSgSpEntity( SgSp entity )
@@ -150,13 +174,12 @@ public abstract partial class AbstractGameMode : BaseNetworkable
 	{
 		GameStateTimer = 0;
 		NextGameStateTime = time;
-		// foreach ( Client client in Client.All )
-		// {
-		// 	if ( client.Pawn is SquidGamePlayer player )
-		// 	{
-		// 		player.UpdateGameTimers( time );
-		// 	}
-		// }
+	}
+
+	public virtual void StartNextPhase()
+	{
+		Log.Info( "AbstractGameMode::StartNextPhase" );
+		Event.Run( "SquidGame.NextPhase" );
 	}
 
 	public abstract void AddPlayer( SquidGamePlayer player );

@@ -1,9 +1,6 @@
 ﻿
 using Sandbox;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using SquidGame.Entities;
 using SquidGame.Games;
 
 //
@@ -21,6 +18,18 @@ namespace SquidGame
 	/// </summary>
 	public partial class SquidGame : Sandbox.Game
 	{
+		public enum GAME_PHASE
+		{
+			NULL,
+			RLGL,
+			HOCO,
+			TOW,
+			MARBLES,
+			BRIDGE,
+			SQUID,
+		}
+
+		[Net] public GAME_PHASE GamePhase { get; set; } = GAME_PHASE.NULL;
 		[Net] public AbstractGameMode CurrentGameMode { get; set; } = new NullGameMode();
 		private Type CurrentGameModeClient { get; set; } = typeof( NullGameModeClient );
 
@@ -36,14 +45,59 @@ namespace SquidGame
 				// this just feels like a nice neat way to do it.
 				_ = new SquidGameHudEntity();
 
-				CurrentGameMode = new RedLightGreenLight();
-				CurrentGameModeClient = typeof( RedLightGreenLightClient );
+				// CurrentGameMode = new RedLightGreenLight();
+				// CurrentGameModeClient = typeof( RedLightGreenLightClient );
 
 			}
 
 			if ( IsClient )
 			{
 				Log.Info( "My Gamemode Has Created Clientside!" );
+			}
+		}
+
+		[Event( "SquidGame.NextPhase" )]
+		public void NextGame()
+		{
+			Log.Warning( "SquidGame::NextGame" );
+			Log.Info( "Starting the next game!!" );
+
+			if ( GamePhase.Equals( GAME_PHASE.NULL ) )
+			{
+				Log.Info( "Next game is RLGL" );
+				GamePhase = GAME_PHASE.RLGL;
+				CurrentGameMode = new RedLightGreenLight();
+				CurrentGameModeClient = typeof( RedLightGreenLightClient );
+			}
+			else if ( GamePhase.Equals( GAME_PHASE.RLGL ) )
+			{
+				Log.Info( "Next game is NULL" );
+				// TODO : Replace with next game
+				GamePhase = GAME_PHASE.NULL;
+				CurrentGameMode = new NullGameMode();
+				CurrentGameModeClient = typeof( NullGameModeClient );
+			}
+
+			// UpdatePlayerGamemodes();
+
+			if ( IsServer )
+			{
+				CurrentGameMode.Init();
+			}
+		}
+
+		[Event( "client.tick" )]
+		public void UpdatePlayerGameMode()
+		{
+			if ( IsServer ) return;
+
+			if ( Local.Pawn is SquidGamePlayer player )
+			{
+				if ( player.CurrentGameMode == CurrentGameMode ) return;
+				Log.Warning( "SquidGame::UpdatePlayerGameMode" );
+				Log.Info( " Updating client gamemode " );
+				player.CurrentGameMode = CurrentGameMode;
+				Log.Info( "Current gamemode is now : " + CurrentGameMode.Tag );
 			}
 		}
 
@@ -69,6 +123,8 @@ namespace SquidGame
 			{
 				ClientSpawn();
 			}
+
+			player.SpawnPosition = player.Transform;
 		}
 
 		public override void Simulate( Client cl )
@@ -79,18 +135,6 @@ namespace SquidGame
 			{
 				CurrentGameMode.OnTick();
 			}
-		}
-
-		[Event.Hotload]
-		public void DebugOutput()
-		{
-			// foreach ( var entity in BaseTrigger.All.OfType<Zone>() )
-			// {
-			// 	if ( entity.Tags.Has( "RedLightGreenLight" ) )
-			// 	{
-			// 		Log.Info( entity.Name );
-			// 	}
-			// }
 		}
 
 		[Event.Entity.PostSpawn]
@@ -113,10 +157,6 @@ namespace SquidGame
 
 			if ( IsServer )
 			{
-				// if ( timeToStart >= 10 && CurrentGameMode.gameState == AbstractGameMode.GAME_STATE.READY )
-				// {
-				// 	CurrentGameMode.Init();
-				// }
 				CurrentGameMode.Init();
 			}
 		}

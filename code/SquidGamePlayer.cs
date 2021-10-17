@@ -9,9 +9,10 @@ namespace SquidGame
 	{
 		private DamageInfo lastDamage;
 
-		[Net] public AbstractGameMode CurrentGameMode { get; set; }
-		[Net] public AbstractGameModeClient CurrentGameModeClient { get; set; } = new NullGameModeClient();
+		public AbstractGameMode CurrentGameMode { get; set; }
+		public AbstractGameModeClient CurrentGameModeClient { get; set; } = new NullGameModeClient();
 		[Net, Predicted] public ICamera MainCamera { get; set; }
+		public Transform SpawnPosition { get; set; }
 
 		public ICamera LastCamera { get; set; }
 
@@ -227,7 +228,7 @@ namespace SquidGame
 
 			Corpse = ent;
 
-			ent.DeleteAsync( 60.0f );
+			ent.DeleteAsync( 90.0f );
 		}
 	}
 }

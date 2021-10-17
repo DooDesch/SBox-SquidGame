@@ -23,8 +23,9 @@ namespace SquidGame.Games
 			{
 				GameSetup = 5,
 				GameStarts = 5,
-				// GameEnds = 60,
-				GameEnds = 360,
+				GameEnds = 60,
+				// GameEnds = 360,
+				NextGame = 15,
 			};
 		}
 
@@ -94,7 +95,7 @@ namespace SquidGame.Games
 
 			await GameTask.DelaySeconds( .1f );
 			Doll.SayRedLightGreenLight();
-			await GameTask.DelaySeconds( 4f );
+			await GameTask.DelaySeconds( 4.5f );
 
 			float secondsUntilShooting = .3f;
 			Doll.TurnAround();

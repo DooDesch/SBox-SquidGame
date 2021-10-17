@@ -6,7 +6,13 @@ public class NullGameMode : AbstractGameMode
 	public NullGameMode()
 	{
 		Log.Info( "NullGameMode::Constructor" );
-		GameState = GAME_STATE.NULL;
+		GameStateTimer = 0;
+		GameState = GAME_STATE.ENDING;
+		Tag = "Null";
+		TimeUntil = new TimeUntil
+		{
+			NextGame = 15
+		};
 	}
 
 	public override void AddPlayer( SquidGamePlayer player )
@@ -24,7 +30,7 @@ public class NullGameMode : AbstractGameMode
 		// base.Init();
 	}
 
-	public override void OnTick()
+	public override void Ready()
 	{
 
 	}
