@@ -10,6 +10,7 @@ public partial class SquidGameHudEntity : HudEntity<RootPanel>
 			return;
 
 		RootPanel.StyleSheet.Load( "/ui/Hud.scss" );
+
 		RootPanel.AddChild<GameStatePanel>();
 		RootPanel.AddChild<Health>();
 		RootPanel.AddChild<InventoryBar>();

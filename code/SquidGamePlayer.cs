@@ -69,7 +69,8 @@ namespace SquidGame
 
 			Clothing.DressEntity( this );
 
-			Inventory.Add( new Fists() );
+			Inventory.Add( new Fists(), true );
+			Inventory.Add( new Pistol() );
 
 			base.Respawn();
 		}
@@ -122,6 +123,11 @@ namespace SquidGame
 		public override void Simulate( Client cl )
 		{
 			base.Simulate( cl );
+
+			if ( Input.ActiveChild != null )
+			{
+				ActiveChild = Input.ActiveChild;
+			}
 
 			if ( cl.Pawn is SquidGamePlayer player )
 			{
