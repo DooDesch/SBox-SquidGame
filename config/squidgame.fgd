@@ -82,6 +82,16 @@ metadata
 ]
 
 //
+// SquidGame.OriginSandbox.Pistol
+//
+@PointClass base(BaseProperties_squidgame) = weapon_pistol : ""
+[
+	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
+
+	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
+]
+
+//
 // SquidGame.Entities.RlGlDoll
 //
 @PointClass base(BaseProperties_squidgame) drawangles() model() 
