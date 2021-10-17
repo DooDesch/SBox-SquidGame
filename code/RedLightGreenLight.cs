@@ -66,26 +66,22 @@ namespace SquidGame.Games
 
 			if ( !Doll.CheckPlayer( player ) ) return;
 
-
-
 			if ( GunnerSpawnPoints.Count > 0 )
 			{
-				// int gunnerCount = Entity.All.OfType<Gunner>().Count();
-				// Gunner gunner = Entity.All.OfType<Gunner>().ElementAt( Rand.Next( 0, gunnerCount ) );
 				Transform gunnerPos = GunnerSpawnPoints[Rand.Next( 0, GunnerSpawnPoints.Count )];
 
-				Gunner gunner = new Gunner()
+				Gunner gunner = new()
 				{
 					Transform = gunnerPos
 				};
-				// Sound.FromWorld( "rust_pistol.shoot", gunner.Position );
+
 				gunner.ShootAtTarget( player, player.EyePos );
 				gunner.Delete();
 			}
 			else
 			{
 				Doll.PlaySound( "rust_pistol.shoot" ).SetRandomPitch( .93f, 1.07f );
-				player.TakeDamage( DamageInfo.Generic( player.Health ) ); // TODO : Uncomment, so the player gets damaged again
+				player.TakeDamage( DamageInfo.Generic( player.Health ) );
 			}
 		}
 
