@@ -19,10 +19,10 @@ namespace SquidGame.Entities
 			Scale = 0.2f;
 		}
 
-		public void SayRedLightGreenLight()
+		public void SayRedLightGreenLight(float pitch )
 		{
 			Log.Info( "RlGlDoll::SayRedLightGreenLight" );
-			PlaySound( "doll_sound_speaking" );
+			PlaySound( "doll_sound_speaking" ).SetPitch( pitch );
 		}
 
 		public void TurnAround()
