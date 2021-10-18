@@ -18,7 +18,7 @@ namespace SquidGame.Games
 			{
 				GameSetup = 5,
 				GameStarts = 5,
-				GameEnds = 60,
+				GameEnds = 600,
 				// GameEnds = 360,
 				NextGame = 15,
 			};
