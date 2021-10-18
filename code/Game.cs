@@ -32,13 +32,17 @@ namespace SquidGame
 			SQUID,
 		}
 
-		[Net] public GAME_PHASE GamePhase { get; set; } = GAME_PHASE.NULL;
-		[Net] public AbstractGameMode CurrentGameMode { get; set; } = new NullGameMode();
-		private Type CurrentGameModeClient { get; set; } = typeof( NullGameModeClient );
+		[Net] public GAME_PHASE GamePhase { get; set; }
+		[Net] public AbstractGameMode CurrentGameMode { get; set; }
+		private Type CurrentGameModeClient { get; set; }
 
 		public Game()
 		{
 			if ( IsServer ) Hud = new();
+
+			GamePhase = GAME_PHASE.NULL;
+			CurrentGameMode = new NullGameMode();
+			CurrentGameModeClient = typeof( NullGameModeClient );
 		}
 
 		[Event( "SquidGame.NextPhase" )]
