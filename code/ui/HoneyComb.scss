@@ -1,0 +1,21 @@
+honeycomb {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: 100px;
+    margin-bottom: 200px;
+    border-radius: 5px;
+    pointer-events: none;
+    transition: all 0.1s ease-out;
+    position: absolute;
+    font-family: poppins;
+    opacity: 0;
+}
+
+.honeycombopen honeycomb {
+    transition: all 0.2s ease-out;
+    pointer-events: all;
+    opacity: 1;
+    transform: scale(1);
+}
