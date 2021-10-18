@@ -38,6 +38,7 @@ namespace SquidGame.Games
 
 			if ( !GameState.Equals( GAME_STATE.STARTING ) ) return;
 
+
 			// TODO : Add some honeycomb winning logic?!
 		}
 
