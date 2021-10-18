@@ -15,14 +15,16 @@ namespace SquidGame.UI
 			StyleSheet.Load( "/ui/HoneyComb.scss" );
 		}
 
+
+
 		public void Open()
 		{
-			Parent.AddClass( "honeycombopen" );
+			AddClass( "open" );
 		}
 
 		public void Close()
 		{
-			Parent.RemoveClass( "honeycombopen" );
+			RemoveClass( "open" );
 		}
 
 		public override void Tick()

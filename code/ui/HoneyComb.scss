@@ -13,7 +13,7 @@ honeycomb {
     opacity: 0;
 }
 
-.honeycombopen honeycomb {
+honeycomb.open {
     transition: all 0.2s ease-out;
     pointer-events: all;
     opacity: 1;
