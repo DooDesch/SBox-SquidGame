@@ -2,31 +2,34 @@
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-public class Health : Panel
+namespace SquidGame.UI
 {
-	public Label HealthText;
-	public Panel HealthBar;
-
-	public Health()
+	public class Health : Panel
 	{
-		Panel healthIconBack = Add.Panel( "HealthIconBack" );
-		healthIconBack.Add.Label( "favorite", "healthicon" );
+		public Label HealthText;
+		public Panel HealthBar;
 
-		Panel healthBarBack = Add.Panel( "HealthBarBack" );
-		HealthBar = healthBarBack.Add.Panel( "HealthBar" );
+		public Health()
+		{
+			Panel healthIconBack = Add.Panel( "HealthIconBack" );
+			healthIconBack.Add.Label( "favorite", "healthicon" );
 
-		HealthText = Add.Label( "100", "healthtext" );
-	}
+			Panel healthBarBack = Add.Panel( "HealthBarBack" );
+			HealthBar = healthBarBack.Add.Panel( "HealthBar" );
 
-	public override void Tick()
-	{
-		base.Tick();
+			HealthText = Add.Label( "100", "healthtext" );
+		}
 
-		var player = Local.Pawn;
-		if ( player == null ) return;
+		public override void Tick()
+		{
+			base.Tick();
 
-		HealthText.Text = $"{player.Health.CeilToInt()}";
-		HealthBar.Style.Dirty();
-		HealthBar.Style.Width = Length.Percent( player.Health );
+			var player = Local.Pawn;
+			if ( player == null ) return;
+
+			HealthText.Text = $"{player.Health.CeilToInt()}";
+			HealthBar.Style.Dirty();
+			HealthBar.Style.Width = Length.Percent( player.Health );
+		}
 	}
 }
