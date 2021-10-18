@@ -16,8 +16,11 @@ namespace SquidGame
 	/// You can use this to create things like HUDs and declare which player class
 	/// to use for spawned players.
 	/// </summary>
-	public partial class SquidGame : Sandbox.Game
+	[Library( "squidgame", Title = "SquidGame" )]
+	public partial class Game : Sandbox.Game
 	{
+		public Hud Hud { get; set; }
+
 		public enum GAME_PHASE
 		{
 			NULL,
@@ -33,27 +36,9 @@ namespace SquidGame
 		[Net] public AbstractGameMode CurrentGameMode { get; set; } = new NullGameMode();
 		private Type CurrentGameModeClient { get; set; } = typeof( NullGameModeClient );
 
-		public SquidGame()
+		public Game()
 		{
-			if ( IsServer )
-			{
-				Log.Info( "My Gamemode Has Created Serverside!" );
-
-				// Create a HUD entity. This entity is globally networked
-				// and when it is created clientside it creates the actual
-				// UI panels. You don't have to create your HUD via an entity,
-				// this just feels like a nice neat way to do it.
-				_ = new SquidGameHudEntity();
-
-				// CurrentGameMode = new RedLightGreenLight();
-				// CurrentGameModeClient = typeof( RedLightGreenLightClient );
-
-			}
-
-			if ( IsClient )
-			{
-				Log.Info( "My Gamemode Has Created Clientside!" );
-			}
+			if ( IsServer ) Hud = new();
 		}
 
 		[Event( "SquidGame.NextPhase" )]
