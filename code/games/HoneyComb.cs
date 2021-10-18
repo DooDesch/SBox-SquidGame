@@ -66,6 +66,7 @@ namespace SquidGame.Games
 		{
 			base.Start();
 
+			OpenHoneyCombUI();
 			// foreach ( Client client in Client.All )
 			// {
 			// 	if ( client.Pawn is SquidGamePlayer player )
@@ -75,6 +76,25 @@ namespace SquidGame.Games
 			// 		player.CanRespawn = false;
 			// 	}
 			// }
+		}
+
+		public override void PreEnd()
+		{
+			CloseHoneyCombUI();
+
+			base.PreEnd();
+		}
+
+		[ClientRpc]
+		public static void OpenHoneyCombUI()
+		{
+			Event.Run( "honeycomb.open" );
+		}
+
+		[ClientRpc]
+		public static void CloseHoneyCombUI()
+		{
+			Event.Run( "honeycomb.close" );
 		}
 
 		public override void AddPlayer( SquidGamePlayer player )
