@@ -1,4 +1,7 @@
 # SBox-SquidGame
+
+> 🛟 **Need help or found a bug?** Get support at [support.doodesch.de](https://support.doodesch.de).
+
 Gamemode based on the Squidgame series
 
 ## Goal
